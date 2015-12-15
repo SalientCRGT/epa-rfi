@@ -1,5 +1,7 @@
 <?php
 
+exit('Terminating early');
+
  // Set a custom session name
 $session_name = 'SESSION_ID';
 
