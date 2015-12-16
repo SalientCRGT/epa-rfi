@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','ngResource']);//,'oc.lazyLoad']);
+var app = angular.module('app', ['ngRoute']);//,'oc.lazyLoad']);
 
 app.config(function($routeProvider){
 
@@ -13,9 +13,9 @@ app.config(function($routeProvider){
 
 });
 
-//app.run(['$route', function($route)  {
-//	$route.reload();
-//}]);
+app.run(['$route', function($route)  {
+	$route.reload();
+}]);
 
 app.controller('SplashCtrl', function(){
     console.log('splashCtrl');
