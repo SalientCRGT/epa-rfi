@@ -1,0 +1,30 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "1. [Slack] (https://slack.com/signin/find) - use your CRGT email.  You should already be added to our #4840West-epa group.  Our commits will be tracked here. Follow the thread, use the @ symbol to call out anyone specifically with a question, and use the direct messaging functionality for anything else   2. [Waffle.io] (https://waffle.io/) - sign in with your Github account.  Search for SalientCRGT/epa-rfi and pull up the storyboard. 3. [Cloud9] (https://c9.io/?redirect=0) - sign in with your GitHub account. Click on 'Create a new workspace'.  Keep it public, and paste the following URL into the 'Clone from Git' text box: https://github.com/SalientCRGT/epa-rfi  Then choose 'Custom' template, and 'Create workspace'.  Once your workspace is set up, it will ask you to enter your username/password for Github.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalientCRGT/epa-rfi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SalientCRGT/epa-rfi/issues"
+  },
+  "homepage": "https://github.com/SalientCRGT/epa-rfi#readme",
+  "devDependencies": {
+    "bower": "^1.7.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-less": "^3.0.5",
+    "gulp-minify-css": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "jshint": "^2.8.0"
+  }
+}
