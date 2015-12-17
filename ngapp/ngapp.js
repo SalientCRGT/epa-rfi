@@ -13,9 +13,10 @@ app.config(function($routeProvider){
 
 });
 
-app.run(['$route', function($route)  {
-	$route.reload();
-}]);
+// force the reoute event
+//app.run(['$route', function($route)  {
+//	$route.reload();
+//}]);
 
 app.controller('SplashCtrl', function(){
     console.log('splashCtrl');
