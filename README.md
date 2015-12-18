@@ -1,4 +1,4 @@
-## On Boarding Instructions
+## On Boarding Instructions 
 1. [Slack] (https://slack.com/signin/find) - use your CRGT email.  You should already be added to our #4840West-epa group.  Our commits will be tracked here. Follow the thread, use the @ symbol to call out anyone specifically with a question, and use the direct messaging functionality for anything else  
 2. [Waffle.io] (https://waffle.io/) - sign in with your Github account.  Search for SalientCRGT/epa-rfi and pull up the storyboard.
 3. [Cloud9] (https://c9.io/?redirect=0) - sign in with your GitHub account. Click on 'Create a new workspace'.  Keep it public, and paste the following URL into the 'Clone from Git' text box: https://github.com/SalientCRGT/epa-rfi  Then choose 'Custom' template, and 'Create workspace'.  Once your workspace is set up, it will ask you to enter your username/password for Github.
