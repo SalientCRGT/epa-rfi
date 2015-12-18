@@ -15,7 +15,7 @@ class RestService {
     // Rest Responses
     public $code = "";
     public $msg = "";
-    public $payload = "";
+    public $data= "";
 
     // Request Options for HTTP GET
     protected function getRequestOptions() {
@@ -53,20 +53,20 @@ class RestService {
     }
 
     // Setter for Rest Response
-    protected function setResponse($code, $msg, $payload){
+    protected function setResponse($code, $msg, $data){
         $this->code = $code;
         $this->msg = $msg;
-        $this->payload = $payload;
+        $this->data = $data;
     }
 
     // Getter for Rest Response
     protected function getResponse(){
-        return (object) ['code' => $this->code, 'msg'=> $this->msg, 'payload'=> $this->payload];
+        return (object) ['code' => $this->code, 'msg'=> $this->msg, 'data'=> $this->data];
     }
 
     // Output Rest Response in JSON format
     protected function outputResponse() {
-        $responseObject = (object) ['code' => $this->code, 'msg'=> $this->msg, 'payload'=> $this->payload];
+        $responseObject = (object) ['code' => $this->code, 'msg'=> $this->msg, 'data'=> $this->data];
 
         echo json_encode($responseObject);
     }

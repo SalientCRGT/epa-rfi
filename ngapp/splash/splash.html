@@ -1,3 +1,10 @@
 <div ng-controller="SplashCtrl">
     <h1>Splash</h1>
+    <a href="/api/facilities">Facilities</a>
+    <a href="/api/facilities/110000339072">Facility By ID</a>
+    <ul>
+        <li ng-repeat="f in facilities">
+            {{f.primaryName}}
+        </li>
+    </ul>
 </div>

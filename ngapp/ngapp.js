@@ -38,7 +38,7 @@ app.config(function($routeProvider, $resourceProvider){
 		query: {
 			method: 'GET',
 			isArray: true,
-			transformResponse: transformAll
+			transformResponse: transformOne
 		}
 	};
 
@@ -49,5 +49,5 @@ app.factory('FacilityResource',function($resource){
 });
 
 app.controller('SplashCtrl', function($scope, FacilityResource){
-    $scope.facilities = FacilityResource.query({});
+    $scope.facilities = FacilityResource.query();
 });

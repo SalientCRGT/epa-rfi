@@ -39,17 +39,17 @@ class DbService {
             $sql = "SELECT * FROM frs_state_facility where postal_code like '22046%'";
             $stmt = $this->dbConnection->prepare($sql);
             $stmt->execute();
-            $resultsArr = $stmt->fetchAll(PDO::FETCH_CLASS);
-            if ($resultsArr == null) {
+            $data = $stmt->fetchAll(PDO::FETCH_CLASS);
+            $data = $this->propNameToCamelCase($data);
+            if ($data == null) {
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
                                      'msg' => 'No facilities found for given criteria'];
             } else {
                 $results = (object) ['code' => static::SUCCESS_CODE,
                                      'msg' => 'Retrieved facilities in Postal Code 22046',
-                                     'data' => $resultsArr];
+                                     'data' => $data];
             }
         } catch(Exception $e) {
-            print_r('exception... ').print_r($e);
             $results = (object) ['code' => static::ERROR_CODE,
                                  'msg' => $e->getMessage()];
         } finally {
@@ -65,13 +65,15 @@ class DbService {
             $stmt = $this->dbConnection->prepare($sql);
             $stmt->bindValue(':registryId', $registryId);
             $stmt->execute();
-            $results = $stmt->fetchObject();
-            if ($results == null) {
+            $data = $stmt->fetchAll(PDO::FETCH_CLASS);
+            $data = $this->propNameToCamelCase($data);
+            if ($data == null) {
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
                                      'msg' => 'No facilities found for given criteria'];
             } else {
-                $results->code = static::SUCCESS_CODE;
-                $results->msg = 'Retrieved facility with registry id: ' . $registryId;
+                $results = (object) ['code' => static::SUCCESS_CODE,
+                                     'msg' => 'Retrieved facility with registry id: ' . $registryId,
+                                     'data' => $data];
             }
         } catch(Exception $e) {
             $results = (object) ['code' => static::ERROR_CODE,
@@ -79,6 +81,33 @@ class DbService {
         } finally {
             return $results;
         }
+    }
+    
+    protected function propNameToCamelCase($arr){
+        $camelArr = array();
+        foreach($arr as $obj){
+            $camelObj = array();
+            foreach($obj as $key => $value){
+                
+                $newKey = $this->underScoreToCamelCase($key);
+                
+                $camelObj[$newKey] = $value;
+
+            }
+            $camelArr[] = $camelObj;
+            
+        }
+        return $camelArr;
+    }
+    
+    protected function underScoreToCamelCase($string){
+
+
+        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+        
+        $str[0] = strtolower($str[0]);
+
+        return $str;
     }
 
 }
