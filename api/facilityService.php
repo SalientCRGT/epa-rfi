@@ -17,8 +17,11 @@ class FacilityService extends RestService{
 
     public function getFacilities(){
         
+        $app = \Slim\Slim::getInstance();
+        $params = $app->request->get();
+        
         try {
-            $result = $this->dbService->getFacilities();
+            $result = $this->dbService->getFacilities($params);
             
             $this->setResponse($result->code, $result->msg, $result->data);
             
@@ -37,8 +40,20 @@ class FacilityService extends RestService{
             $this->setResponse($result->code, $result->msg, $result->data);
            
         } catch(Exception $e) {
-            debug_print_backtrace();
             $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility with ID: ".$registryId, array());
+        } finally {
+            $this->outputResponse();
+        }
+    }
+    
+    public function getFacilitiesByRegEx($search){
+        try {
+            $result = $this->dbService->getFacilitiesByRegEx($search);
+            
+            $this->setResponse($result->code, $result->msg, $result->data);
+           
+        } catch(Exception $e) {
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility search: ".$search, array());
         } finally {
             $this->outputResponse();
         }

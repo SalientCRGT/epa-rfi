@@ -14,6 +14,7 @@ $app = new \Slim\Slim();
 // Facility Services
 $app->get('/facilities', 'FacilityService:getFacilities');
 $app->get('/facilities/:registryId', 'FacilityService:getFacilityById');
+$app->get('/facilities/search/:search', 'FacilityService:getFacilitiesByRegEx');
 
 $app->run();
 

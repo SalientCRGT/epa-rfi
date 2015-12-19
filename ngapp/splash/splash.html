@@ -1,10 +1,24 @@
 <div ng-controller="SplashCtrl">
     <h1>Splash-2</h1>
-    <a href="/api/facilities">Facilities</a>
-    <a href="/api/facilities/110000339072">Facility By ID</a>
-    <ul>
-        <li ng-repeat="f in facilities">
-            {{f.primaryName}}
-        </li>
-    </ul>
+    <input type="text" ng-model="search" ng-change="getFacilities()"/>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>City</td>
+                <td>State</td>
+                <td>Zip Code</td>
+                <td>Address</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="f in facilities">
+                <td>{{f.primaryName}}</td>
+                <td>{{f.cityName}}</td>
+                <td>{{f.stateName}}</td>
+                <td>{{f.postalCode}}</td>
+                <td>{{f.locationAddress}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
