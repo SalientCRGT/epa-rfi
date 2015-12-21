@@ -6,9 +6,9 @@ class DbService {
 
     // MySQL Connection constants
     const DB_HOST = "127.0.0.1";
-    const DB_NAME = "4840epa";
-    const DB_USERNAME = "4840epa";
-    const DB_PASSWORD = "4840epa";
+    const DB_NAME = "4840w";
+    const DB_USERNAME = "4840w";
+    const DB_PASSWORD = "4840w";
 
     // Status Codes
     const ERROR_CODE = "error";
@@ -36,11 +36,11 @@ class DbService {
         
         try {
             
-            $sql = "SELECT * FROM frs_state_facility ";
+            $sql = "SELECT * FROM FRS_STATE_FACILITY ";
             if($params != null){
                 $sqlWhere = $this->createWhere($params);
             }else{
-                $sqlWhere = " WHERE postal_code = '22046'";
+                $sqlWhere = " WHERE POSTAL_CODE = '22046'";
             }
             
             $sql = $sql.$sqlWhere;    

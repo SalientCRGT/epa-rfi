@@ -1,5 +1,6 @@
-ngapp.controller('SplashCtrl', function($scope, $http, FacilityResource){
-    $scope.facilities = FacilityResource.query();
+ngapp.controller('SplashCtrl', function($scope, $http, facilities){
+    $scope.facilities = facilities;
+
     $scope.getFacilities = function(){
     	console.log($scope.search);
     	if($scope.search.length > 3){
@@ -18,4 +19,5 @@ ngapp.controller('SplashCtrl', function($scope, $http, FacilityResource){
 		result.$msg = jsonData.msg;
 		return result;
 	};
+	
 });

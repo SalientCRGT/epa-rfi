@@ -74,7 +74,8 @@ gulp.task('scripts', ['lint'], function() {
 // make it dependent on scripts - purely for logging clarity
 gulp.task('plugins', ['scripts'], function() {
 	return gulp.src(src.plugins, {base:"./"}).pipe(debug())
-		.pipe(sourcemaps.init({loadMaps: true}))
+		//.pipe(sourcemaps.init({loadMaps: true}))
+		.pipe(sourcemaps.init())
 			.pipe(concat('plugins.min.js')).pipe(debug())
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('.'));

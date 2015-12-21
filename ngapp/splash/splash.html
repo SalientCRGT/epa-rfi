@@ -1,9 +1,9 @@
-<div class="container" ng-controller="SplashCtrl">
+<div class="container">
     <h1 class="text-primary">
-        Facilities Registry System
+        Facilities Registry System <small>Search</small>
         <hr class="animated slideInLeft">
     </h1>
-    <input type="text" ng-model="search" class="form-control" ng-change="getFacilities()" placeholder="search the repository" />
+    <input type="text" ng-model="search" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
     <table class="table">
         <thead>
             <tr>
