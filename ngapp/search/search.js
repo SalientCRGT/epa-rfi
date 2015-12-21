@@ -1,4 +1,4 @@
-ngapp.controller('SplashCtrl', function($scope, $http, facilities){
+ngapp.controller('SearchCtrl', function($scope, $http, facilities){
     $scope.facilities = facilities;
 
     $scope.getFacilities = function(){

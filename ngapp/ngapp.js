@@ -4,8 +4,8 @@ ngapp.config(function($routeProvider, $resourceProvider){
 
 	$routeProvider
 		.when('/', {
-			templateUrl: 'ngapp/splash/splash.html',
-			controller: 'SplashCtrl',
+			templateUrl: 'ngapp/search/search.html',
+			controller: 'SearchCtrl',
 			resolve: {
 				facilities: function(FacilityResource){
 					return FacilityResource.query();
