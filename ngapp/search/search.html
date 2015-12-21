@@ -3,25 +3,49 @@
         Facilities Registry System <small>Search</small>
         <hr class="animated slideInLeft">
     </h1>
-    <input type="text" ng-model="search" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip Code</th>
-                <th>Address</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="f in facilities">
-                <td>{{f.primaryName}}</td>
-                <td>{{f.cityName}}</td>
-                <td>{{f.stateName}}</td>
-                <td>{{f.postalCode}}</td>
-                <td>{{f.locationAddress}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <form ng-submit="search()">
+        <div class="input-group">
+            <input type="text" ng-model="q" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </span>
+        </div>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <!--
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Address</th>
+                    -->
+                    <th><input placeholder="Name" type="text" ng-model="searchParameters.primaryName" class="form-control"></th>
+                    <th><input placeholder="City" type="text" ng-model="searchParameters.cityName" class="form-control"></th>
+                    <th><input placeholder="State" type="text" ng-model="searchParameters.stateName" class="form-control"></th>
+                    <th><input placeholder="Zip" type="text" ng-model="searchParameters.postalCode" class="form-control"></th>
+                    <th><input placeholder="Address" type="text" ng-model="searchParameters.locationAddress" class="form-control"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="f in facilities">
+                    <!--
+                    <td>{{f.primaryName}}</td>
+                    <td>{{f.cityName}}</td>
+                    <td>{{f.stateName}}</td>
+                    <td>{{f.postalCode}}</td>
+                    <td>{{f.locationAddress}}</td>
+                    -->
+                    <td>{{f.pRIMARYNAME}}</td>
+                    <td>{{f.cITYNAME}}</td>
+                    <td>{{f.sTATENAME}}</td>
+                    <td>{{f.pOSTALCODE}}</td>
+                    <td>{{f.lOCATIONADDRESS}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
 </div>
