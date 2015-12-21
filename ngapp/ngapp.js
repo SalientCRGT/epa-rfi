@@ -1,6 +1,6 @@
-var app = angular.module('app', ['ngRoute','ngResource']);//,'oc.lazyLoad']);
+var ngapp = angular.module('ngapp', ['ngRoute','ngResource','ngAnimate']);
 
-app.config(function($routeProvider, $resourceProvider){
+ngapp.config(function($routeProvider, $resourceProvider){
 
 	$routeProvider
 		.when('/', {
@@ -38,34 +38,12 @@ app.config(function($routeProvider, $resourceProvider){
 		query: {
 			method: 'GET',
 			isArray: true,
-			transformResponse: transformOne
+			transformResponse: transformAll
 		}
 	};
 
 });
 
-app.factory('FacilityResource',function($resource){
+ngapp.factory('FacilityResource',function($resource){
 	return $resource('/api/facilities/:id');
-});
-
-app.controller('SplashCtrl', function($scope, $http, FacilityResource){
-    $scope.facilities = FacilityResource.query();
-    $scope.getFacilities = function(){
-    	console.log($scope.search);
-    	if($scope.search.length > 3){
-	    	$scope.facilities = $http.get('/api/facilities/search/' + $scope.search.split(' ').join('+'))
-	    		.then(function(response) {
-	    			$scope.facilities = $scope.transformAll(response.data);
-	    			console.log('facilities: ' + $scope.facilities);
-	    		});
-    	}
-    };
-    
-    $scope.transformAll = function(data){
-		var jsonData = angular.fromJson(data);
-		var result = jsonData.data || [];
-		result.$code = jsonData.code;
-		result.$msg = jsonData.msg;
-		return result;
-	};
 });

@@ -1,14 +1,17 @@
-<div ng-controller="SplashCtrl">
-    <h1>Splash-2</h1>
-    <input type="text" ng-model="search" ng-change="getFacilities()"/>
+<div class="container" ng-controller="SplashCtrl">
+    <h1 class="text-primary">
+        Facilities Registry System
+        <hr class="animated slideInLeft">
+    </h1>
+    <input type="text" ng-model="search" class="form-control" ng-change="getFacilities()" placeholder="search the repository" />
     <table class="table">
         <thead>
             <tr>
-                <td>Name</td>
-                <td>City</td>
-                <td>State</td>
-                <td>Zip Code</td>
-                <td>Address</td>
+                <th>Name</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
