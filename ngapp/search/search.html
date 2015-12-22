@@ -39,18 +39,18 @@
                     <td>{{f.postalCode}}</td>
                     <td>{{f.locationAddress}}</td>
                     -->
-                    <td ng-if="!f.fRSFACILITYDETAILREPORTURL">{{f.pRIMARYNAME}}</td>
+                    <td ng-if="!f.frsFacilityDetailReportUrl">{{f.primaryName}}</td>
                     <td>
-                        <a href="{{f.fRSFACILITYDETAILREPORTURL}}" target="_blank" title="Detail Report Available">{{f.pRIMARYNAME}}</a>
+                        <a href="{{f.frsFacilityDetailReportUrl}}" target="_blank" title="Detail Report Available">{{f.primaryName}}</a>
                     </td>
-                    <td>{{f.cITYNAME}}</td>
-                    <td>{{f.sTATENAME}}</td>
-                    <td>{{f.pOSTALCODE}}</td>
-                    <td>{{f.lOCATIONADDRESS}}</td>
+                    <td>{{f.cityName}}</td>
+                    <td>{{f.stateName}}</td>
+                    <td>{{f.postalCode}}</td>
+                    <td>{{f.locationAddress}}</td>
                     <td style="white-space: nowrap">
-                        <a title="Map by Address" href="http://maps.google.com/?q={{f.lOCATIONADDRESS}} {{f.cITYNAME}} {{f.sTATENAME}} {{f.pOSTALCODE}}" target="_blank">
+                        <a title="Map by Address" href="http://maps.google.com/?q={{f.locationAddress}} {{f.cityName}} {{f.stateName}} {{f.postalCode}}" target="_blank">
                             <i class="fa fa-globe fa-lg fa-fw"></i></a>
-                        <a title="Map by Lat/Long Coordinates" href="https://maps.google.com/?q={{f.lATITUDE83}},{{f.lONGITUDE83}}" target="_blank">
+                        <a title="Map by Lat/Long Coordinates" href="https://maps.google.com/?q={{f.latitude83}},{{f.longitude83}}" target="_blank">
                             <i class="fa fa-map-marker fa-lg fa-fw"></i></a>
                     </td>
                 </tr>

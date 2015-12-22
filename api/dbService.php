@@ -36,11 +36,11 @@ class DbService {
         
         try {
             
-            $sql = "SELECT * FROM FRS_STATE_FACILITY ";
+            $sql = "SELECT * FROM frs_state_facility ";
             if($params != null){
                 $sqlWhere = $this->createWhere($params);
             }else{
-                $sqlWhere = " WHERE POSTAL_CODE = '22046'";
+                $sqlWhere = " WHERE postal_code = '22046'";
             }
             
             $sql = $sql.$sqlWhere;    
@@ -48,18 +48,21 @@ class DbService {
             $stmt = $this->dbConnection->prepare($sql);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_CLASS);
-            $data = $this->propNameToCamelCase($data);
+
             if ($data == null) {
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
-                                     'msg' => 'No facilities found for given criteria'];
+                                     'msg' => 'No facilities found for given criteria',
+                                     'data' => array()];
             } else {
+                $data = $this->propNameToCamelCase($data);
                 $results = (object) ['code' => static::SUCCESS_CODE,
                                      'msg' => 'Retrieved facilities in Postal Code 22046',
                                      'data' => $data];
             }
         } catch(Exception $e) {
             $results = (object) ['code' => static::ERROR_CODE,
-                                 'msg' => $e->getMessage()];
+                                 'msg' => $e->getMessage(),
+                                 'data' => array()];
         } finally {
             return $results;
         }
@@ -74,18 +77,22 @@ class DbService {
             $stmt->bindValue(':registryId', $registryId);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_CLASS);
-            $data = $this->propNameToCamelCase($data);
+            
             if ($data == null) {
+                
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
-                                     'msg' => 'No facilities found for given criteria'];
+                                     'msg' => 'No facilities found for given criteria',
+                                     'data' => array()];
             } else {
+                $data = $this->propNameToCamelCase($data);
                 $results = (object) ['code' => static::SUCCESS_CODE,
                                      'msg' => 'Retrieved facility with registry id: ' . $registryId,
                                      'data' => $data];
             }
         } catch(Exception $e) {
             $results = (object) ['code' => static::ERROR_CODE,
-                                 'msg' => $e->getMessage()];
+                                 'msg' => $e->getMessage(),
+                                     'data' => array()];
         } finally {
             return $results;
         }
@@ -115,7 +122,8 @@ class DbService {
 
             if ($data == null) {
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
-                                     'msg' => 'No facilities found for given criteria'];
+                                     'msg' => 'No facilities found for given criteria',
+                                     'data' => array()];
             } else {
                 $results = (object) ['code' => static::SUCCESS_CODE,
                                      'msg' => 'Retrieved facility with registry id: ' . $search,
@@ -123,7 +131,8 @@ class DbService {
             }
         } catch(Exception $e) {
             $results = (object) ['code' => static::ERROR_CODE,
-                                 'msg' => $e->getMessage()];
+                                 'msg' => $e->getMessage(),
+                                'data' => array()];
         } finally {
             return $results;
         }
@@ -172,13 +181,30 @@ class DbService {
         $sqlWhere = " WHERE ";
         foreach($params as $key => $value){
             $newKey = (String)$this->camelCaseToUnderScore($key);
-            $sqlWhere = $sqlWhere." $newKey = '$value' ";
+            $multiParam = explode("|", $value);
+            $paramCount = count($multiParam);
+           
+            if($paramCount > 1){
+                $sqlWhere = $sqlWhere." ( ";
+                for($i = 0; $i < $paramCount; $i++){
+                    $val = $multiParam[$i];
+                    $sqlWhere = $sqlWhere." $newKey LIKE '%$val%' ";
+                    if($i != $paramCount - 1){
+                        $sqlWhere = $sqlWhere." OR ";
+                    }
+                }
+                $sqlWhere = $sqlWhere." ) ";
+            }else{
+                $sqlWhere = $sqlWhere." $newKey LIKE '%$value%' ";
+            }
+            
             
             if($counter != $max){
                $sqlWhere = $sqlWhere." AND ";
             }
             $counter++;
         }
+        
         return $sqlWhere;
     }
 
