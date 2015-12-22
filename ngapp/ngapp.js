@@ -12,8 +12,8 @@ ngapp.config(function($routeProvider, $resourceProvider){
 				}
 			}
 		})
-		.when('/api', {
-			templateUrl: 'ngapp/api/api.html'
+		.when('/developer', {
+			templateUrl: 'ngapp/developer/developer.html'
 		})
 		.otherwise({
 			redirectTo: '/'

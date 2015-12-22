@@ -27,7 +27,7 @@
                     <th><input placeholder="City" type="text" ng-model="searchParameters.cityName" class="form-control"></th>
                     <th><input placeholder="State" type="text" ng-model="searchParameters.stateName" class="form-control"></th>
                     <th><input placeholder="Zip" type="text" ng-model="searchParameters.postalCode" class="form-control"></th>
-                    <th><input placeholder="Address" type="text" ng-model="searchParameters.locationAddress" class="form-control"></th>
+                    <th colspan="2"><input placeholder="Address" type="text" ng-model="searchParameters.locationAddress" class="form-control"></th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +47,12 @@
                     <td>{{f.sTATENAME}}</td>
                     <td>{{f.pOSTALCODE}}</td>
                     <td>{{f.lOCATIONADDRESS}}</td>
+                    <td style="white-space: nowrap">
+                        <a title="Map by Address" href="http://maps.google.com/?q={{f.lOCATIONADDRESS}} {{f.cITYNAME}} {{f.sTATENAME}} {{f.pOSTALCODE}}" target="_blank">
+                            <i class="fa fa-globe fa-lg fa-fw"></i></a>
+                        <a title="Map by Lat/Long Coordinates" href="https://maps.google.com/?q={{f.lATITUDE83}},{{f.lONGITUDE83}}" target="_blank">
+                            <i class="fa fa-map-marker fa-lg fa-fw"></i></a>
+                    </td>
                 </tr>
             </tbody>
         </table>
