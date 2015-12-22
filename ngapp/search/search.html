@@ -8,7 +8,7 @@
             <input type="text" ng-model="q" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="submit">
-                    <i class="fa fa-search"></i> Search
+                    <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
                 </button>
             </span>
         </div>
