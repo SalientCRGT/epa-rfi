@@ -29,7 +29,6 @@ ngapp.config(function($routeProvider, $resourceProvider){
 		var result = jsonData.data || [];
 		result.$code = jsonData.code;
 		result.$msg = jsonData.msg;
-		console.log(result);
 		return result;
 	}
 
