@@ -2,6 +2,13 @@ ngapp.controller('SearchCtrl', function($scope, $http, facilities, FacilityResou
     $scope.facilities = facilities;
     
     $scope.search = function(){
+        // trim unused attributes for cleaner request urls
+        for (var i in $scope.searchParameters) {
+            if ($scope.searchParameters[i] === null || $scope.searchParameters[i] === '') {
+                delete $scope.searchParameters[i];
+            }
+            console.log(i, $scope.searchParameters[i]);
+        }
         $scope.facilities = FacilityResource.query($scope.searchParameters);
     };
 

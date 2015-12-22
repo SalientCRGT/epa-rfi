@@ -7,13 +7,13 @@
         <div class="input-group">
             <input type="text" ng-model="q" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
             <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">
+                <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search"></i> Search
                 </button>
             </span>
         </div>
         
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <!--
@@ -39,7 +39,10 @@
                     <td>{{f.postalCode}}</td>
                     <td>{{f.locationAddress}}</td>
                     -->
-                    <td>{{f.pRIMARYNAME}}</td>
+                    <td ng-if="!f.fRSFACILITYDETAILREPORTURL">{{f.pRIMARYNAME}}</td>
+                    <td>
+                        <a href="{{f.fRSFACILITYDETAILREPORTURL}}" target="_blank" title="Detail Report Available">{{f.pRIMARYNAME}}</a>
+                    </td>
                     <td>{{f.cITYNAME}}</td>
                     <td>{{f.sTATENAME}}</td>
                     <td>{{f.pOSTALCODE}}</td>

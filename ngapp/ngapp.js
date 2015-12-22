@@ -12,6 +12,9 @@ ngapp.config(function($routeProvider, $resourceProvider){
 				}
 			}
 		})
+		.when('/api', {
+			templateUrl: 'ngapp/api/api.html'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});
