@@ -35,5 +35,6 @@ conveyor VARCHAR(255),
 collect_desc VARCHAR(255),
 accuracy_value VARCHAR(255),
 ref_point_desc VARCHAR(255),
-hdatum_desc VARCHAR(255));    
+hdatum_desc VARCHAR(255),
+source_desc VARCHAR(255));    
 COMMIT;
