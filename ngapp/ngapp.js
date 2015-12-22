@@ -5,12 +5,7 @@ ngapp.config(function($routeProvider, $resourceProvider){
 	$routeProvider
 		.when('/', {
 			templateUrl: 'ngapp/search/search.html',
-			controller: 'SearchCtrl',
-			resolve: {
-				facilities: function(FacilityResource){
-					return FacilityResource.query();
-				}
-			}
+			controller: 'SearchCtrl'
 		})
 		.when('/developer', {
 			templateUrl: 'ngapp/developer/developer.html'
@@ -34,6 +29,7 @@ ngapp.config(function($routeProvider, $resourceProvider){
 		var result = jsonData.data || [];
 		result.$code = jsonData.code;
 		result.$msg = jsonData.msg;
+		console.log(result);
 		return result;
 	}
 

@@ -3,58 +3,126 @@
         Facilities Registry System <small>Search</small>
         <hr class="animated slideInLeft">
     </h1>
-    <form ng-submit="search()">
-        <div class="input-group">
-            <input type="text" ng-model="q" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
-            <span class="input-group-btn">
+    <p class="lead">
+        Tell the users about this page.
+    </p>
+
+    <form ng-submit="search()" class="collapse in">
+        <p class="text-right">
+            <a href ng-click="toggleForm()">Advanced Search <i class="fa fa-caret-right"></i></a>
+        </p>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" ng-model="searchParameters.q" class="form-control" ng-change="getFacilities()" placeholder="search the repository" autofocus />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
+                    </button>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <form ng-submit="search()" class="form-horizontal collapse">
+        <p>
+            <a href ng-click="toggleForm()"><i class="fa fa-caret-left"></i> Basic Search</a>
+        </p>
+        <div class="form-group">
+            <label for="primaryName" class="col-md-2 control-label">Name</label>
+            <div class="col-md-4">
+                <input id="primaryName" type="text" ng-model="searchParameters.primaryName" class="form-control">
+            </div>
+        <!--
+        </div>
+        <div class="form-group">
+        -->
+            <label for="locationAddress" class="col-md-2 control-label">Address</label>
+            <div class="col-md-4">
+                <input id="locationAddress" type="text" ng-model="searchParameters.locationAddress" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cityName" class="col-md-2 control-label">City</label>
+            <div class="col-md-4">
+                <input id="cityName" type="text" ng-model="searchParameters.cityName" class="form-control">
+            </div>
+        <!--
+        </div>
+        <div class="form-group">
+        -->
+            <label for="stateName" class="col-md-2 control-label">State</label>
+            <div class="col-md-4">
+                <input id="stateName" type="text" ng-model="searchParameters.stateName" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="postalCode" class="col-md-2 control-label">Zip</label>
+            <div class="col-md-4">
+                <input id="postalCode" type="text" ng-model="searchParameters.postalCode" class="form-control">
+            </div>
+        <!--
+        </div>
+        <div class="text-right">
+        -->
+            <div class="col-md-offset-2 col-md-4 hidden-xs hidden-sm">
                 <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
                 </button>
-            </span>
+            </div>
         </div>
-        
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <!--
-                    <th>Name</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip Code</th>
-                    <th>Address</th>
-                    -->
-                    <th><input placeholder="Name" type="text" ng-model="searchParameters.primaryName" class="form-control"></th>
-                    <th><input placeholder="City" type="text" ng-model="searchParameters.cityName" class="form-control"></th>
-                    <th><input placeholder="State" type="text" ng-model="searchParameters.stateName" class="form-control"></th>
-                    <th><input placeholder="Zip" type="text" ng-model="searchParameters.postalCode" class="form-control"></th>
-                    <th colspan="2"><input placeholder="Address" type="text" ng-model="searchParameters.locationAddress" class="form-control"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="f in facilities">
-                    <!--
-                    <td>{{f.primaryName}}</td>
-                    <td>{{f.cityName}}</td>
-                    <td>{{f.stateName}}</td>
-                    <td>{{f.postalCode}}</td>
-                    <td>{{f.locationAddress}}</td>
-                    -->
-                    <td ng-if="!f.frsFacilityDetailReportUrl">{{f.primaryName}}</td>
-                    <td>
-                        <a href="{{f.frsFacilityDetailReportUrl}}" target="_blank" title="Detail Report Available">{{f.primaryName}}</a>
-                    </td>
-                    <td>{{f.cityName}}</td>
-                    <td>{{f.stateName}}</td>
-                    <td>{{f.postalCode}}</td>
-                    <td>{{f.locationAddress}}</td>
-                    <td style="white-space: nowrap">
-                        <a title="Map by Address" href="http://maps.google.com/?q={{f.locationAddress}} {{f.cityName}} {{f.stateName}} {{f.postalCode}}" target="_blank">
-                            <i class="fa fa-globe fa-lg fa-fw"></i></a>
-                        <a title="Map by Lat/Long Coordinates" href="https://maps.google.com/?q={{f.latitude83}},{{f.longitude83}}" target="_blank">
-                            <i class="fa fa-map-marker fa-lg fa-fw"></i></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="hidden-md hidden-lg">
+            <button class="btn btn-primary btn-block" type="submit">
+                <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
+            </button>
+        </div>
     </form>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip Code</th>
+                <th colspan="2">Address</th>
+                <!--
+                <th><input placeholder="Name" type="text" ng-model="searchParameters.primaryName" class="form-control"></th>
+                <th><input placeholder="City" type="text" ng-model="searchParameters.cityName" class="form-control"></th>
+                <th><input placeholder="State" type="text" ng-model="searchParameters.stateName" class="form-control"></th>
+                <th><input placeholder="Zip" type="text" ng-model="searchParameters.postalCode" class="form-control"></th>
+                <th colspan="2"><input placeholder="Address" type="text" ng-model="searchParameters.locationAddress" class="form-control"></th>
+                -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="f in facilities">
+                <!--
+                <td>{{f.primaryName}}</td>
+                <td>{{f.cityName}}</td>
+                <td>{{f.stateName}}</td>
+                <td>{{f.postalCode}}</td>
+                <td>{{f.locationAddress}}</td>
+                -->
+                <td ng-if="!f.frsFacilityDetailReportUrl">{{f.primaryName}}</td>
+                <td>
+                    <a href="{{f.frsFacilityDetailReportUrl}}" target="_blank" title="Detail Report Available">{{f.primaryName}}</a>
+                </td>
+                <td>{{f.cityName}}</td>
+                <td>{{f.stateName}}</td>
+                <td>{{f.postalCode}}</td>
+                <td>{{f.locationAddress}}</td>
+                <td style="white-space: nowrap">
+                    <a title="Map by Address" href="http://maps.google.com/?q={{f.locationAddress}} {{f.cityName}} {{f.stateName}} {{f.postalCode}}" target="_blank">
+                        <i class="fa fa-globe fa-lg fa-fw"></i></a>
+                    <!--
+                    <a title="Map by Lat/Long Coordinates" href="https://maps.google.com/?q={{f.latitude83}},{{f.longitude83}}" target="_blank">
+                        <i class="fa fa-map-marker fa-lg fa-fw"></i></a>
+                    -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div ng-if="!facilities.length && facilities.$resolved===true" class="text-muted">
+        <em>No results found</em>
+    </div>
 </div>
