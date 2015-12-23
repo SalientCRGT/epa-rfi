@@ -1,5 +1,5 @@
 TRUNCATE TABLE frs_state_facility;
-LOAD DATA INFILE '../../../home/ubuntu/workspace/server/sql/data/NATIONAL_FACILITY_FILE.csv' INTO TABLE frs_state_facility
+LOAD DATA INFILE '/var/lib/jenkins/workspace/4840W/epa-agile-rfi/epa_db_runscript/server/data/NATIONAL_FACILITY_FILE.csv' INTO TABLE frs_state_facility
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n' STARTING BY ''
 IGNORE 1 LINES
