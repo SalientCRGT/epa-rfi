@@ -17,16 +17,16 @@ class FacilityService extends RestService{
 
     public function getFacilities(){
         
+        $app = \Slim\Slim::getInstance();
+        $params = $app->request->get();
+        
         try {
-            $facilityData = $this->dbService->getFacilities();
-
-            if ($facilityData->code == DbService::SUCCESS_CODE) {
-                $this->setResponse(static::SUCCESS_CODE, "User is logged into the system", $facilityData);
-            } else {
-                $this->setResponse(static::NO_DATA_FOUND_CODE, "No facilities were found for criteria given", $facilityData);
-            }
+            $result = $this->dbService->getFacilities($params);
+            
+            $this->setResponse($result->code, $result->msg, $result->data);
+            
         } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve user", array());
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred", array());
         } finally {
             $this->outputResponse();
         }
@@ -35,15 +35,25 @@ class FacilityService extends RestService{
     public function getFacilityById($registryId){
         
         try {
-            $facilityData = $this->dbService->getFacilityById($registryId);
-
-            if ($facilityData->code == DbService::SUCCESS_CODE) {
-                $this->setResponse(static::SUCCESS_CODE, "Found Facility", $facilityData);
-            } else {
-                $this->setResponse(static::NO_DATA_FOUND_CODE, "No facility was found for the given ID", $facilityData);
-            }
+            $result = $this->dbService->getFacilityById($registryId);
+            
+            $this->setResponse($result->code, $result->msg, $result->data);
+           
         } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility", array());
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility with ID: ".$registryId, array());
+        } finally {
+            $this->outputResponse();
+        }
+    }
+    
+    public function getFacilitiesByRegEx($search){
+        try {
+            $result = $this->dbService->getFacilitiesByRegEx($search);
+            
+            $this->setResponse($result->code, $result->msg, $result->data);
+           
+        } catch(Exception $e) {
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility search: ".$search, array());
         } finally {
             $this->outputResponse();
         }
