@@ -1,3 +1,4 @@
+/*global angular*/
 var ngapp = angular.module('ngapp', ['ngRoute','ngResource','ngAnimate']);
 
 ngapp.config(function($routeProvider, $resourceProvider){
@@ -18,8 +19,10 @@ ngapp.config(function($routeProvider, $resourceProvider){
 	function transformOne(data, headersGetter, status){
 		var jsonData = angular.fromJson(data);
 		var result = jsonData.data || {};
-		result.$code = jsonData.code;
-		result.$msg = jsonData.msg;
+		Object.getOwnPropertyNames(jsonData).forEach(function(propertyName){
+			if (propertyName !== 'data')
+				result['$' + propertyName] = jsonData[propertyName];
+		});
 		return result;
 	}
 
@@ -27,17 +30,19 @@ ngapp.config(function($routeProvider, $resourceProvider){
 	function transformAll(data, headersGetter, status){
 		var jsonData = angular.fromJson(data);
 		var result = jsonData.data || [];
-		result.$code = jsonData.code;
-		result.$msg = jsonData.msg;
-		result.$pages = jsonData.pages;
+		Object.getOwnPropertyNames(jsonData).forEach(function(propertyName){
+			if (propertyName !== 'data')
+				result['$' + propertyName] = jsonData[propertyName];
+		});
 		return result;
 	}
 	
 	function responseInterceptor(response){
-		console.log('responseInterceptor',response);
-		response.resource.$code = response.data.$code;
-		response.resource.$msg = response.data.$msg;
-		response.resource.$pages = response.data.$pages;
+		// move any $ data properties over to the resource
+		Object.getOwnPropertyNames(response.data).forEach(function(propertyName){
+			if (propertyName.substring(0,1) === '$')
+				response.resource[propertyName] = response.data[propertyName];
+		});
 		return response.resource;
 	}
 	
