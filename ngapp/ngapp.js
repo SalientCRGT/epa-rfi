@@ -15,7 +15,7 @@ ngapp.config(function($routeProvider, $resourceProvider){
 		});
 	
 	// reduces response from {code:"", msg:"", data:{}} to just data
-	function transformOne(data){
+	function transformOne(data, headersGetter, status){
 		var jsonData = angular.fromJson(data);
 		var result = jsonData.data || {};
 		result.$code = jsonData.code;
@@ -24,12 +24,25 @@ ngapp.config(function($routeProvider, $resourceProvider){
 	}
 
 	// reduces response from {code:"", msg:"", data:[]} to just data
-	function transformAll(data){
+	function transformAll(data, headersGetter, status){
 		var jsonData = angular.fromJson(data);
 		var result = jsonData.data || [];
 		result.$code = jsonData.code;
 		result.$msg = jsonData.msg;
+		result.$pages = jsonData.pages;
 		return result;
+	}
+	
+	function responseInterceptor(response){
+		console.log('responseInterceptor',response);
+		response.resource.$code = response.data.$code;
+		response.resource.$msg = response.data.$msg;
+		response.resource.$pages = response.data.$pages;
+		return response.resource;
+	}
+	
+	function responseErrorInterceptor(){
+		// todo ?
 	}
 
 	$resourceProvider.defaults.actions = {
@@ -41,12 +54,15 @@ ngapp.config(function($routeProvider, $resourceProvider){
 		query: {
 			method: 'GET',
 			isArray: true,
-			transformResponse: transformAll
+			transformResponse: transformAll,
+			interceptor: {
+				response: responseInterceptor
+			}
 		}
 	};
 
 });
 
 ngapp.factory('FacilityResource',function($resource){
-	return $resource('/api/facilities/:id');
+	return $resource('/api/facilities/:id',{page: 1, pageSize: 50});
 });
