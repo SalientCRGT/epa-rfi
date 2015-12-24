@@ -1,32 +1,24 @@
 <?php
 
 class FacilityService extends RestService{
-
-    protected $dbService;
-
-    function __construct() {
-        // Establish Database Service
-        $this->dbService = new DbService();
-
-    }
-
-    function __destruct() {
-        // Close database service
-        $this->dbService = null;
-    }
+       
+    const TABLE_NAME = "frs_state_facility";
 
     public function getFacilities(){
         
-        $app = \Slim\Slim::getInstance();
-        $params = $app->request->get();
+       
+        $params = $this->app->request->get();
+        $selectStmt = new SelectStmt();
+        $selectStmt->setTableName(self::TABLE_NAME);
+        $selectStmt->setParams($params);
         
         try {
-            $result = $this->dbService->getFacilities($params);
+            $result = $this->dbService->executeQuery($selectStmt);
             
-            $this->setResponse($result->code, $result->msg, $result->data);
+            $this->setResponse($result->code, $result->msg, $result->pages, $result->data);
             
         } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred", array());
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred", $result->pages, array());
         } finally {
             $this->outputResponse();
         }
@@ -35,25 +27,21 @@ class FacilityService extends RestService{
     public function getFacilityById($registryId){
         
         try {
-            $result = $this->dbService->getFacilityById($registryId);
+            $selectStmt = new SelectStmt();
+            $selectStmt->setTableName(self::TABLE_NAME);
+            $whereClauses = array();
+            $wc = new WhereClause();
+            $wc->setColumn("registry_id");
+            $wc->setOperator($wc::OP_EQUAL);
+            $wc->setValue($registryId);
+            array_push($whereClauses, $wc);
+            $selectStmt->setWhereClauses($whereClauses);
+            $result = $this->dbService->executeQuery($selectStmt);
             
-            $this->setResponse($result->code, $result->msg, $result->data);
+            $this->setResponse($result->code, $result->msg, $result->pages, $result->data);
            
         } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility with ID: ".$registryId, array());
-        } finally {
-            $this->outputResponse();
-        }
-    }
-    
-    public function getFacilitiesByRegEx($search){
-        try {
-            $result = $this->dbService->getFacilitiesByRegEx($search);
-            
-            $this->setResponse($result->code, $result->msg, $result->data);
-           
-        } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility search: ".$search, array());
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility with ID: ".$registryId, $result->pages, array());
         } finally {
             $this->outputResponse();
         }

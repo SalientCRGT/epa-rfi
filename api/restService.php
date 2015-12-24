@@ -12,80 +12,56 @@ class RestService {
     const SUCCESS_MESSAGE = "Data successfully fetched from service";
     const SERVICE_FAILURE_MSG = "Service failed to return data";
 
+    public $dbService;
+
+    // Slim app
+    public $app;
+
     // Rest Responses
     public $code = "";
     public $msg = "";
     public $data= "";
+    public $pages = 0;
 
-    // Request Options for HTTP GET
-    protected function getRequestOptions() {
-        return array(
-            "http" => array(
-                "header"  => "Accept: application/json; Content-type: application/x-www-form-urlencoded\r\n",
-                "method"  => "GET"
-            ),
-        );
+    function __construct(){
+         $this->app = \Slim\Slim::getInstance();
+        // Establish Database Service
+        $this->dbService = new DbService();
+
     }
 
-    // Request Options for HTTP DELETE
-    protected function deleteRequestOptions() {
-        return array(
-            "http" => array(
-                "header"  => "Accept: application/json; Content-type: application/x-www-form-urlencoded\r\n",
-                "method"  => "DELETE"
-            ),
-        );
-    }
-
-    // Request Options for HTTP POST/PUT
-    protected function getJsonOptions($jsonData, $method="POST"){
-        return array(
-            'http' => array(
-                'protocol_version' => 1.1,
-                'user_agent'       => 'phpRestAPIservice',
-                'method'           => $method,
-                'header'           => "Content-type: application/json\r\n".
-                                      "Connection: close\r\n" .
-                                      "Content-length: " . strlen($jsonData) . "\r\n",
-                'content'          => $jsonData,
-            ),
-        );
+    function __destruct() {
+        // Close database service
+        $this->dbService = null;
+        $this->app = null;
     }
 
     // Setter for Rest Response
-    protected function setResponse($code, $msg, $data){
+    protected function setResponse($code, $msg, $pages, $data){
         $this->code = $code;
         $this->msg = $msg;
+        $this->pages = $pages;
         $this->data = $data;
     }
 
     // Getter for Rest Response
     protected function getResponse(){
-        return (object) ['code' => $this->code, 'msg'=> $this->msg, 'data'=> $this->data];
+        return (object) ['code' => $this->code, 'msg'=> $this->msg, 'pages' => $this->pages, 'data'=> $this->data];
     }
 
     // Output Rest Response in JSON format
     protected function outputResponse() {
-        $responseObject = (object) ['code' => $this->code, 'msg'=> $this->msg, 'data'=> $this->data];
-
-        echo json_encode($responseObject);
-    }
-
-    // Validate request body parameters
-    protected function checkParamsExist($body, $params){
-        $parameterMissing = false;
-
-        foreach ($params as $parameterName => &$parameterErrorMsg) {
-            if (!property_exists($body, $parameterName)) {
-                if ($parameterErrorMsg !== null) {
-                    setResponse("invalid_parameter", $parameterErrorMsg, array());
-                } else {
-                    setResponse("invalid_parameter", $parameterName." parameter is missing", array());
-                }
-                $parameterMissing = true;
-            }
+        $responseObject = (object) ['code' => $this->code, 'msg'=> $this->msg, 'pages' => $this->pages, 'data'=> $this->data];
+        
+        if($this->code == self::NO_DATA_FOUND_CODE){
+            $this->app->response->setStatus(404);
+        }elseif($this->code == self::SYSTEM_FAILURE_CODE){
+            $this->app->response->setStatus(500);
+        }else{
+            $this->app->response->setStatus(200);
         }
-        return !$parameterMissing;
+        
+        echo json_encode($responseObject);
     }
 }
 ?>

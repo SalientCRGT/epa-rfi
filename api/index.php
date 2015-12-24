@@ -2,6 +2,7 @@
 
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
+require 'SelectStmt.php';
 require 'restService.php';
 require 'dbService.php';
 require 'facilityService.php';
@@ -14,7 +15,6 @@ $app = new \Slim\Slim();
 // Facility Services
 $app->get('/facilities', 'FacilityService:getFacilities');
 $app->get('/facilities/:registryId', 'FacilityService:getFacilityById');
-$app->get('/facilities/search/:search', 'FacilityService:getFacilitiesByRegEx');
 
 $app->run();
 
