@@ -4,11 +4,11 @@ var ngapp = angular.module('ngapp', ['ngRoute','ngResource','ngAnimate']);
 ngapp.config(function($routeProvider, $resourceProvider){
 
 	$routeProvider
-		.when('/', {
+		.when('/search', {
 			templateUrl: 'ngapp/search/search.html',
 			controller: 'SearchCtrl'
 		})
-		.when('/developer', {
+		.when('/', {
 			templateUrl: 'ngapp/developer/developer.html'
 		})
 		.otherwise({
