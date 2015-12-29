@@ -1,4 +1,4 @@
-## Hapi-Gen 
+## HapiGen 
 
 HapiGen is an application built with the EPA’s developers in mind.  The idea came to us while reviewing the available datasets from developer.epa.gov.  We noticed that the majority were in csv or xml format, which are both older, bulkier, and less versatile data interchange formats than the modern JSON format.  We saw an opportunity: in order to make it easier for EPA developers to make great applications with these datasets, they needed to be in a lighter, more adaptable format.  Converting datasets from csv to JSON is a great first step to help developers create applications from this data.  We made a scalable version of this vision with HapiGen – a JSON API generator for the Facilities Registry System’s dataset.  We wanted to do more for this RFI than simply pick a dataset to redisplay with fancy graphics.  We wanted to show that SalientCRGT creates and maintains outstanding software applications by thinking outside of the box to solve real world problems for our clients.
 
