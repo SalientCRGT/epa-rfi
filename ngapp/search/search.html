@@ -1,16 +1,18 @@
 <div class="container">
     <h1 class="text-primary">
-        Facilities Registry System <small>Search</small>
+        Facilities Registry System
         <hr class="animated slideInLeft">
     </h1>
-    <form ng-submit="update()" class="navbar-form">
+    <form ng-submit="update(state)" class="navbar-form">
+        <select class="form-control" ng-model="state">
+            <option value="VA">Virginia</option>
+            <option value="MD">Maryland</option>
+            <option value="NC">North Carolina</option>
+        </select>
         <button class="btn navbar-btn navbar-right" type="submit">
             Update
         </button>    
      </form>
-    <p class="lead">
-        Tell the users about this page.
-    </p>
 
     <form ng-submit="search()" class="collapse in">
         <p class="text-right">

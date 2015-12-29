@@ -84,6 +84,8 @@ class DbService {
         $location = $scriptDir.$data;
         $sql = file_get_contents($location);
 
+        $sql = str_replace("{SUB_TYPE}", $subType, $sql);
+        
         if ($data <> "") {
             try {
                 $stmt = $this->dbConnection->prepare($sql);
@@ -150,7 +152,7 @@ class DbService {
             } else {
                 $data = $this->propNameToCamelCase($data);
                 $results = (object) ['code' => static::SUCCESS_CODE,
-                                     'msg' => 'Retrieved facilities in Postal Code 22046',
+                                     'msg' => 'Retrieved facilities',
                                      'data' => $data,
                                      'pages' => $pages,
                                      'rowCount'=> $count];

@@ -102,8 +102,10 @@ class GetEPAData extends RestService {
         $type = $params["type"];
         $subType = $params["subtype"];
         
+        $this->csvName = $subType."_FACILITY_FILE.csv";
+        
         if ($type == "FRS") {
-            $cmd = ". ../server/scripts/frs_file_process.sh";
+            $cmd = ". ../server/scripts/frs_file_process.sh '$subType'";
         } else {
             $cmd = "";
         }
@@ -112,7 +114,6 @@ class GetEPAData extends RestService {
             $results = $this->getEPAFile($type, $subType);
             if ($results == "SUCCESSFUL DOWNLOAD") {
                 //echo $results;
-                echo $cmd;
                  $results = $this->execCommand($cmd);
                 //echo $results;
                if ($results == "SUCCESSFUL EXTRACT") {

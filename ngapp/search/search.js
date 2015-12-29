@@ -61,10 +61,10 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, $timeou
     
     $scope.search();
 
-    $scope.update = function(){
+    $scope.update = function(state){
        $http({
           method: 'GET',
-          url: '/api/files?type=FRS&subtype=VA'
+          url: '/api/files?type=FRS&subtype=' + state
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
