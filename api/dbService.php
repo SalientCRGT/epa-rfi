@@ -18,7 +18,7 @@ class DbService {
 
     function __construct() {
         // Open database connection
-        $this->dbConnection = new PDO("mysql:host=" .static::DB_HOST. ";dbname=" .static::DB_NAME, static::DB_USERNAME, static::DB_PASSWORD);
+        $this->dbConnection = new PDO("mysql:host=" .static::DB_HOST. ";dbname=" .static::DB_NAME, static::DB_USERNAME, static::DB_PASSWORD, array(PDO::MYSQL_ATTR_LOCAL_INFILE=>1));
         $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $this->sessionId = session_id();
@@ -69,17 +69,23 @@ class DbService {
 
     function loadData($type, $subType) {
         $scriptDir = "../../../home/ubuntu/workspace/server/sql/data/"; 
+        $scriptDir = "../server/sql/";
         if ($type == "FRS") {
             if ($subType == "NAT") {
                 $data = "NATIONAL_FACILITY_FILE.csv"; //"load_frs_national_facility.sql";
             } else {
                 $data = $subType."_FACILITY_FILE.csv"; //"load_frs_state_facility.sql";
+                $data = "load_frs_state_facility.sql";
             }
         } else {
             $data = "";    //modify this section to add any other datasets that can be handled similarly
         }
-
-        $sql1 = "TRUNCATE TABLE frs_state_facility;";
+        
+        echo "new file: $scriptDir$data";
+        $location = $scriptDir.$data;
+        $sql = file_get_contents($location);
+        
+        /*$sql1 = "TRUNCATE TABLE frs_state_facility;";
         $sql2 = "LOAD DATA INFILE '".$scriptDir.$data."' INTO TABLE frs_state_facility
                 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"'
                 LINES TERMINATED BY '\n' STARTING BY ''
@@ -120,16 +126,16 @@ class DbService {
                 accuracy_value = nullif(@accuracy_value,''),
                 ref_point_desc = nullif(@ref_point_desc,''),
                 hdatum_desc = nullif(@hdatum_desc,''),
-                source_desc = nullif(@source_desc,'')";
+                source_desc = nullif(@source_desc,'')";*/
 
         if ($data <> "") {
             try {
-                $stmt = $this->dbConnection->prepare($sql1);
+                $stmt = $this->dbConnection->prepare($sql);
                 $stmt->execute();
                 echo "\nTable truncated\n";
 
-                $stmt = $this->dbConnection->prepare($sql2);
-                $stmt->execute();
+                /*$stmt = $this->dbConnection->prepare($sql2);
+                $stmt->execute();*/
 
                 $results = "SUCCESSFUL LOAD";
             } catch (Exception $e) {
@@ -186,19 +192,22 @@ class DbService {
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
                                      'msg' => 'No facilities found for given criteria',
                                      'data' => array(),
-                                     'pages' => 0];
+                                     'pages' => 0,
+                                     'rowCount'=> 0];
             } else {
                 $data = $this->propNameToCamelCase($data);
                 $results = (object) ['code' => static::SUCCESS_CODE,
                                      'msg' => 'Retrieved facilities in Postal Code 22046',
                                      'data' => $data,
-                                     'pages' => $pages];
+                                     'pages' => $pages,
+                                     'rowCount'=> $count];
             }
         } catch(Exception $e) {
             $results = (object) ['code' => static::ERROR_CODE,
                                  'msg' => $e->getMessage(),
                                  'data' => array(),
-                                 'pages' => 0];
+                                 'pages' => 0,
+                                 'rowCount'=> 0];
         } finally {
             return $results;
         }
@@ -217,17 +226,23 @@ class DbService {
                 
                 $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
                                      'msg' => 'No facilities found for given criteria',
-                                     'data' => array()];
+                                     'data' => array(),
+                                     'pages' => 0,
+                                     'rowCount'=> 0];
             } else {
                 $data = $this->propNameToCamelCase($data);
                 $results = (object) ['code' => static::SUCCESS_CODE,
                                      'msg' => 'Retrieved facility with registry id: ' . $registryId,
-                                     'data' => $data];
+                                     'data' => $data,
+                                     'pages' => 0,
+                                     'rowCount'=> 1];
             }
         } catch(Exception $e) {
             $results = (object) ['code' => static::ERROR_CODE,
                                  'msg' => $e->getMessage(),
-                                     'data' => array()];
+                                     'data' => array(),
+                                     'pages' => 0,
+                                     'rowCount'=> 0];
         } finally {
             return $results;
         }

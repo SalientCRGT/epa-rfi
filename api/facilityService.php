@@ -15,10 +15,10 @@ class FacilityService extends RestService{
         try {
             $result = $this->dbService->executeQuery($selectStmt);
             
-            $this->setResponse($result->code, $result->msg, $result->pages, $result->data);
+            $this->setResponse($result->code, $result->msg, $result->pages, $result->rowCount, $result->data);
             
         } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred", $result->pages, array());
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred", $result->pages, $result->rowCount, array());
         } finally {
             $this->outputResponse();
         }
@@ -38,10 +38,10 @@ class FacilityService extends RestService{
             $selectStmt->setWhereClauses($whereClauses);
             $result = $this->dbService->executeQuery($selectStmt);
             
-            $this->setResponse($result->code, $result->msg, $result->pages, $result->data);
+            $this->setResponse($result->code, $result->msg, $result->pages, $result->rowCount, $result->data);
            
         } catch(Exception $e) {
-            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility with ID: ".$registryId, $result->pages, array());
+            $this->setResponse(static::SYSTEM_FAILURE_CODE, "System error occurred, unable retrieve facility with ID: ".$registryId, $result->pages, $result->rowCount, array());
         } finally {
             $this->outputResponse();
         }

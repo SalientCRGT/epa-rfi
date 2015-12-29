@@ -52,16 +52,17 @@ class SelectStmt{
             }elseif($key == "page"){
                 $this->page = $value;
             }elseif($key == "q"){
-                $val = "'%".strtoupper($value)."%'";
-                $this->where = " WHERE UPPER(registry_id) LIKE $val 
-                        or UPPER(primary_name) LIKE $val 
-                        or UPPER(city_name) LIKE $val 
-                        or UPPER(county_name) LIKE $val 
-                        or UPPER(state_code) LIKE $val 
-                        or UPPER(state_name) LIKE $val 
-                        or UPPER(country_name) LIKE $val 
-                        or UPPER(postal_code) LIKE $val 
-                        or UPPER(site_type_name) LIKE $val ";
+                //$val = str_replace("|","','",$value);
+                $val = "'".strtoupper($value)."'";
+                $this->where = " WHERE UPPER(registry_id)  REGEXP $val
+                        or UPPER(primary_name)  REGEXP  $val 
+                        or UPPER(city_name)  REGEXP  $val 
+                        or UPPER(county_name)  REGEXP  $val 
+                        or UPPER(state_code)  REGEXP  $val 
+                        or UPPER(state_name)  REGEXP  $val 
+                        or UPPER(country_name)  REGEXP  $val 
+                        or UPPER(postal_code)  REGEXP  $val 
+                        or UPPER(site_type_name)  REGEXP  $val ";
             }else{
                 $wc = new WhereClause();
                 $wc->setColumn($this->camelCaseToUnderScore($key));

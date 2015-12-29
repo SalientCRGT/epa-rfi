@@ -46,8 +46,10 @@ ngapp.config(function($routeProvider, $resourceProvider){
 		return response.resource;
 	}
 	
-	function responseErrorInterceptor(){
-		// todo ?
+	function responseErrorInterceptor(response){
+		console.log("error interceptor status: " + response.status);
+		
+		return response.resource;
 	}
 
 	$resourceProvider.defaults.actions = {
@@ -61,7 +63,8 @@ ngapp.config(function($routeProvider, $resourceProvider){
 			isArray: true,
 			transformResponse: transformAll,
 			interceptor: {
-				response: responseInterceptor
+				response: responseInterceptor,
+				responseError: responseErrorInterceptor
 			}
 		}
 	};

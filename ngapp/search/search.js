@@ -10,18 +10,25 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, $timeou
     // the resource has defaults {page: 1, pageSize: 50}
     function searchParams(){
 
+        var formattedParams = {};
         // trim unused attributes for cleaner request urls
         for (var i in $scope.searchParameters) {
             if ($scope.searchParameters[i] === null || $scope.searchParameters[i] === '') {
                 delete $scope.searchParameters[i];
+                break;
+            }else if(i == "q"){
+                var str = $scope.searchParameters[i];
+                formattedParams[i] = str.replace(/\s+/g, '|');
+                break;
             }
+            formattedParams[i] = $scope.searchParameters[i];
         }
         
         // todo : alter q to pass in regexp syntax similar to google-style searching
         // https://support.google.com/websearch/answer/2466433?hl=en
         // e.g. quotes, asterisk, minus, number range
 
-        var params = angular.extend({}, $scope.searchParameters, $scope.pager);
+        var params = angular.extend({}, formattedParams, $scope.pager);
         return params;
     }
     

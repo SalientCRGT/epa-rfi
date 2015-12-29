@@ -22,6 +22,7 @@ class RestService {
     public $msg = "";
     public $data= "";
     public $pages = 0;
+    public $rowCount = 0;
 
     function __construct(){
          $this->app = \Slim\Slim::getInstance();
@@ -37,21 +38,22 @@ class RestService {
     }
 
     // Setter for Rest Response
-    protected function setResponse($code, $msg, $pages, $data){
+    protected function setResponse($code, $msg, $pages, $rowCount, $data){
         $this->code = $code;
         $this->msg = $msg;
         $this->pages = $pages;
+        $this->rowCount = $rowCount;
         $this->data = $data;
     }
 
     // Getter for Rest Response
     protected function getResponse(){
-        return (object) ['code' => $this->code, 'msg'=> $this->msg, 'pages' => $this->pages, 'data'=> $this->data];
+        return (object) ['code' => $this->code, 'msg'=> $this->msg, 'pages' => $this->pages, 'rowCount' => $this->rowCount, 'data'=> $this->data];
     }
 
     // Output Rest Response in JSON format
     protected function outputResponse() {
-        $responseObject = (object) ['code' => $this->code, 'msg'=> $this->msg, 'pages' => $this->pages, 'data'=> $this->data];
+        $responseObject = (object) ['code' => $this->code, 'msg'=> $this->msg, 'pages' => $this->pages, 'rowCount' => $this->rowCount, 'data'=> $this->data];
         
         if($this->code == self::NO_DATA_FOUND_CODE){
             $this->app->response->setStatus(404);
