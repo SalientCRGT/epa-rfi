@@ -20,16 +20,8 @@ class GetEPAData extends RestService {
         try {
             
             if ($fileName <> "" && $url <> "") {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $data = curl_exec ($ch);
-                curl_close ($ch);
-                
-                $destination = $this->fileSaveDir . $fileName;
-                $file = fopen($destination, "w+");
-                fputs($file, $data);
-                fclose($file);
+                $this->downloadFile($url.$fileName, $this->fileSaveDir.$fileName);
+            
     
                 $results = "SUCCESSFUL DOWNLOAD";
             } else {
@@ -40,9 +32,30 @@ class GetEPAData extends RestService {
             $results = "FAILED DOWNLOAD";
             echo $e;
         } finally {
+            echo $results;
             return $results;
         }
 
+    }
+
+    private function downloadFile($url, $path)
+    {
+        $newfname = $path;
+        $file = fopen ($url, 'rb');
+        if ($file) {
+            $newf = fopen ($newfname, 'wb');
+            if ($newf) {
+                while(!feof($file)) {
+                    fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
+                }
+            }
+        }
+        if ($file) {
+            fclose($file);
+        }
+        if ($newf) {
+            fclose($newf);
+        }
     }
 
     /**
@@ -90,7 +103,7 @@ class GetEPAData extends RestService {
         $subType = $params["subtype"];
         
         if ($type == "FRS") {
-            $cmd = "./server/scripts/frs_file_process.sh";
+            $cmd = ". ../server/scripts/frs_file_process.sh";
         } else {
             $cmd = "";
         }
@@ -99,6 +112,7 @@ class GetEPAData extends RestService {
             $results = $this->getEPAFile($type, $subType);
             if ($results == "SUCCESSFUL DOWNLOAD") {
                 //echo $results;
+                echo $cmd;
                  $results = $this->execCommand($cmd);
                 //echo $results;
                if ($results == "SUCCESSFUL EXTRACT") {

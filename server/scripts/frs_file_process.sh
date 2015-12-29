@@ -17,16 +17,16 @@
 # set up variables
 #***********************************************************************
 
-LOG_HOME=server/sql/data        #/logs
+LOG_HOME=../server/sql/data        #/logs
 LOG_FILE="epa_frs_load.log"     #$LOG_HOME/
-EMAIL=cwoldorf@crgt.com
+EMAIL=jshake@crgt.com
 
 vError="N"
 YYYY=`date '+%Y'`
-SOURCE_DATA_HOME=server/sql/data    #/src
-APP_DATA_HOME=server/sql/data
-ARCH_DATA_HOME=server/sql/data      #/archive
-SCRIPT_HOME=server/sql
+SOURCE_DATA_HOME=../server/sql/data    #/src
+APP_DATA_HOME=../server/sql/data
+ARCH_DATA_HOME=../server/sql/data      #/archive
+SCRIPT_HOME=../server/sql
 SCRIPT_NAME=dev_load_frs_state_facility.sql    #<-- change this to load_frs_national_facility.sql for Production -- dev_load_frs_national_facility.sql
 ZIP_NAME=state_combined_va.zip                                      #national_combined.zip
 CSV_NAME=VA_FACILITY_FILE                                           #NATIONAL_FACILITY_FILE
