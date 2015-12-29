@@ -1,68 +1,9 @@
 <?php
 
-class GetEPAData { 
-
-    protected $dbService;
-    protected $type = "FRS";
-    protected $subType = "VA";
-    protected $fileSaveDir = "/server/sql/data/";  //  ../../../home/ubuntu/workspace
-
-    function __construct() {
-        // Establish Database Service
-        
-        $this->dbService = new DbService();
-    }
-
-    function __destruct() {
-        // Close database service
-        $this->dbService = null;
-    }
-
-    public function getFileName($type, $subType){
-        try {
-            // Retrieve Status of Defaul URL
-            $sql = "SELECT url FROM epa_url WHERE url_status = 'A' and epa_category = '"+$type+"' and epa_sub_category = '"+$subType+"'";
-            $stmt = $this->dbConnection->prepare($sql);
-            $stmt->execute();
-            $results = $stmt->fetchObject();
-            if ($results == null) {
-                $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
-                                     'msg' => 'System configuration error, EPA default URL not found'];
-            } else {
-                $results->code = static::SUCCESS_CODE;
-                $results->msg = 'Retrieved EPA default URL status';
-            }
-        } catch(Exception $e) {
-            $results = (object) ['code' => static::ERROR_CODE,
-                                 'msg' => $e->getMessage()];
-        } finally {
-            return $results;
-        }
-    }
-
-    public function getURL($type, $subType){
-        try {
-            // Retrieve URL
-            $sql = "SELECT url FROM epa_url WHERE url_status = 'A' and epa_category = '"+$type+"' and epa_sub_category = '"+$subType+"'";
-            $stmt = $this->dbConnection->prepare($sql);
-            $stmt->execute();
-            $results = $stmt->fetchObject();
-            if ($results == null) {
-                $results = (object) ['code' => static::NO_DATA_FOUND_CODE,
-                                     'msg' => 'System configuration error, EPA default URL not found'];
-            } else {
-                $results->code = static::SUCCESS_CODE;
-                $results->msg = 'Retrieved EPA default URL status';
-            }
-        } catch(Exception $e) {
-            $results = (object) ['code' => static::ERROR_CODE,
-                                 'msg' => $e->getMessage()];
-        } finally {
-            return $results;
-        }
-    }
-
+class GetEPAData extends RestService { 
     
+     protected  $fileSaveDir = "../server/sql/data/";
+     protected  $csvName = "VA_FACILITY_FILE.csv";
 
     /**
      * getEPAFile($type, $subType)
@@ -73,22 +14,19 @@ class GetEPAData {
      */
 
     public function getEPAFile($type, $subType) {
+        $fileName = $this->dbService->getFileName($type, $subType);
+        $url = $this->dbService->getURL($type,$subType);
 
         try {
             
-            $fileName = getFileName($type, $subType);
-
-            $url = getURL($type,$subType);
-            
-            if ($filename <> "" && $url <> "") {
+            if ($fileName <> "" && $url <> "") {
                 $ch = curl_init();
-                //$source = "http://someurl.com/afile.zip";
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 $data = curl_exec ($ch);
                 curl_close ($ch);
                 
-                $destination = $fileSaveDir + $fileName;
+                $destination = $this->fileSaveDir . $fileName;
                 $file = fopen($destination, "w+");
                 fputs($file, $data);
                 fclose($file);
@@ -100,6 +38,7 @@ class GetEPAData {
             
         } catch(Exception $e) {
             $results = "FAILED DOWNLOAD";
+            echo $e;
         } finally {
             return $results;
         }
@@ -114,63 +53,28 @@ class GetEPAData {
      */
 
     function execCommand($cmd) { 
+        $filePath = $this->fileSaveDir . $this->csvName;
+        //echo $filePath;
+        
         try {
-            $results = exec($cmd . " > /dev/null &");   
+            $results = shell_exec($cmd); //exec($cmd); // . " > /dev/null &");   
+            //echo $cmd . " completed.";
+            if (file_exists($filePath)) {
+                echo "\nThe file $filePath exists";
+                $results = "SUCCESSFUL EXTRACT";
+            } else {
+                echo "\nThe file $filePath does not exist";
+            }
         } catch (Exception $e) {
             $results = "FAILED PROCESS";
+            echo $e;
         } finally {
-            return results;
+            echo "\n".$results;
+            return $results;
         }
     } 
 
 
-    /**
-     * loadData($type, $subType)
-     * Calls the sql script file that loads the CSV file for the specified data set. 
-     * Params: 
-     *      $type - current default value is "FRS" -- can be added to if additional data sources added;
-     *      $subType - current accepted values are "NAT" or US State codes (2 char) 
-     */
-
-    function loadData($type, $subType) { 
-    
-        if ($type == "FRS") {
-            $tab = "frs_state_facility";
-            if ($subType == "NAT") {
-                $data = "load_frs_national_facility.sql";
-            } else {
-                $data = "load_frs_state_facility.sql";
-            }
-        } else {
-            $tab = "";
-            $data = "";    //modify this section to add any other datasets that can be handled similarly
-        }
-        
-        if ($data <> "") {
-            try {
-                $conn = $dbService->$dbConnection;
-                $cmd = "source server/sql/" + $data;
-                $stmt = mysqli_prepare($conn, $cmd);
-
-                mysqli_stmt_execute($stmt);
-
-                mysqli_stmt_close($stmt);
-
-                /* check table load */
-                $query = "SELECT count(*) FROM " + $tab;
-                $result = mysqli_query($conn, $query);
-                if ($result > 0) {
-                    $results = "SUCCESSFUL LOAD";
-                    mysqli_free_result($result);
-                }
-
-            } catch(Exception $e) {
-                $results = "FAILED LOAD";
-            } finally {
-                return $results;
-            }
-        }
-    }    
 
     /**
      * processEPAFile($type, $subType)
@@ -180,7 +84,10 @@ class GetEPAData {
      *      $subType - current accepted values are "NAT" or US State codes (2 char) 
      */
 
-    public function processEPAFile($type, $subType) {
+    public function processEPAFile() { //$type, $subType
+        $params = $this->app->request->get();
+        $type = $params["type"];
+        $subType = $params["subtype"];
         
         if ($type == "FRS") {
             $cmd = "./server/scripts/frs_file_process.sh";
@@ -189,18 +96,33 @@ class GetEPAData {
         }
         
         try {
-            $results = getEPAFile($type, $subType);
+            $results = $this->getEPAFile($type, $subType);
             if ($results == "SUCCESSFUL DOWNLOAD") {
-               $results = execCommand($cmd);
-               
+                //echo $results;
+                 $results = $this->execCommand($cmd);
+                //echo $results;
                if ($results == "SUCCESSFUL EXTRACT") {
-                   $results = loadData($type, $subType);
+                  // echo $results;
+                   $results = $this->dbService->loadData($type, $subType);
+                  // echo $results;
+                  if ($results == "SUCCESSFUL LOAD") {
+                      $result = $this->dbService->checkData($type, $subType);
+                        if ($result > 0) {
+                            echo "\n". $result . " records loaded";
+                            $results = "SUCCESSFUL LOAD";
+                        } else {
+                            echo "\nNo records loaded.";
+                            $results = "FAILED LOAD PROCESS";
+                        }
+                  }
                }
             }
             
         } catch(Exception $e) {
             $results = "FAILED TO LOAD DATA!";
+            echo $e;
         } finally {
+            echo "\n".$results;
             return $results;
         }
             

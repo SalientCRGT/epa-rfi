@@ -68,3 +68,4 @@ accuracy_value = nullif(@accuracy_value,''),
 ref_point_desc = nullif(@ref_point_desc,''),
 hdatum_desc = nullif(@hdatum_desc,''),
 source_desc = nullif(@source_desc,'');
+COMMIT;

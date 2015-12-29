@@ -26,7 +26,7 @@ insert into epa_url
 (url_name, url_desc, url, url_status, url_default_fl, epa_category, epa_sub_category, epa_file_name)
 values
 ('EPA State Combined CSV Download Files - VA','To improve public health and the environment, the EPA collects information about facilities or sites subject to environmental regulation. This page provides state comma separated value (CSV) files containing key information of all facilities and sites within the Facility Registry System (FRS). Each state zip file archive combines multiple CSV files of facility name and addresses, geospatial locations, facility interests, organizations, industrial classifications (SIC and NAICS), alternative facility names, contacts, and facility mailing addresses. Complete documentation of the CSV file is included within the zip archive.',
- 'http://www3.epa.gov/enviro/html/fii/downloads/state_files/','A',1,'FRS','ST','state_combined_va.zip');
+ 'http://www3.epa.gov/enviro/html/fii/downloads/state_files/','A',1,'FRS','VA','state_combined_va.zip');
 
 
 COMMIT;

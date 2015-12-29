@@ -54,6 +54,20 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, $timeou
     
     $scope.search();
 
+    $scope.update = function(){
+       $http({
+          method: 'GET',
+          url: '/api/files?type=FRS&subtype=VA'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+          }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
+
+    }
+
 	$scope.toggleForm = function(){
         $scope.searchParameters = {};
         $('form').collapse('toggle');
