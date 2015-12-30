@@ -1,11 +1,11 @@
-EPA File Process Started at: DATE: 12/30/2015% TIME: 08:20:05 PM
+EPA File Process Started at: DATE: 12/30/2015% TIME: 08:28:10 PM
 
 FRS .zip file found in the ../server/sql/data
 
-Latest FRS File is state_combined_ms.zip
+Latest FRS File is state_combined_wv.zip
 
-MS_FACILITY_FILE.CSV found in the ../server/sql/data
+WV_FACILITY_FILE.CSV found in the ../server/sql/data
 
-MS_FACILITY_FILE.CSV moved to MS_FACILITY_FILE.csv
+WV_FACILITY_FILE.CSV moved to WV_FACILITY_FILE.csv
 
-Process for FSR COMPLETED AT DATE: 12/30/2015% TIME: 08:20:05 PM
+Process for FSR COMPLETED AT DATE: 12/30/2015% TIME: 08:28:10 PM
