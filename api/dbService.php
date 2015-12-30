@@ -5,8 +5,7 @@ class DbService {
     protected $sessionId;
 
     // MySQL Connection constants
-    //const DB_HOST = "127.0.0.1";
-    const DB_HOST = "52.3.5.215:3306";
+    const DB_HOST = "127.0.0.1";
     const DB_NAME = "4840w";
     const DB_USERNAME = "4840w";
     const DB_PASSWORD = "4840w";
