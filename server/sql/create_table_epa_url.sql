@@ -140,7 +140,7 @@ insert into epa_url
 values
 ('EPA State Combined CSV Download Files - Kentucky',
 'To improve public health and the environment, the EPA collects information about facilities or sites subject to environmental regulation. This page provides state comma separated value (CSV) files containing key information of all facilities and sites within the Facility Registry System (FRS). Each state zip file archive combines multiple CSV files of facility name and addresses, geospatial locations, facility interests, organizations, industrial classifications (SIC and NAICS), alternative facility names, contacts, and facility mailing addresses. Complete documentation of the CSV file is included within the zip archive.',
- 'http://www3.epa.gov/enviro/html/fii/downloads/state_files/','A',0,'FRS','KT','state_combined_kt.zip');
+ 'http://www3.epa.gov/enviro/html/fii/downloads/state_files/','A',0,'FRS','KY','state_combined_ky.zip');
 
 insert into epa_url
 (url_name, url_desc, url, url_status, url_default_fl, epa_category, epa_sub_category, epa_file_name)
