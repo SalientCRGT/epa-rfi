@@ -42,3 +42,4 @@ IGNORE 1 LINES
                 hdatum_desc = nullif(@hdatum_desc,''),
                 source_desc = nullif(@source_desc,''); 
                 
+commit;
