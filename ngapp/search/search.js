@@ -91,6 +91,12 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
 	    return $location.protocol() + '://' + $location.host() + '/api/facilities?' + $httpParamSerializerJQLike(searchParams(false));
 	};
 	
+	$('.alert-instruct').hover(function(){
+	    $(this).addClass('highlight');
+	},function(){
+	    $(this).removeClass('highlight');
+	});
+	
 	$scope.states = [
 	    {
             "name": "--Choose State--",

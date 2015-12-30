@@ -1,0 +1,27 @@
+
+.alert-instruct{
+    cursor: pointer;
+    
+    &.alert{
+        &.alert-success{
+            &.highlight{
+                background-color:  darken(@alert-success-bg, 5%);
+            }
+        }
+        &.alert-info{
+            &.highlight{
+                background-color:  darken(@alert-info-bg, 5%);
+            }
+        }
+        &.alert-warning{
+            &.highlight{
+                background-color:  darken(@alert-warning-bg, 5%);
+            }
+        }
+        &.alert-danger{
+            &.highlight{
+                background-color:  darken(@alert-danger-bg, 5%);
+            }
+        }
+    }
+}
