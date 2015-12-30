@@ -1,5 +1,5 @@
 # Run as root for mysql
-drop database if exists 4840epa;
+drop database if exists 4840w;
 
 create database 4840w;
 
