@@ -26,8 +26,6 @@ YYYY=`date '+%Y'`
 SOURCE_DATA_HOME=../server/sql/data    #/src
 APP_DATA_HOME=../server/sql/data
 ARCH_DATA_HOME=../server/sql/data      #/archive
-SCRIPT_HOME=../server/sql
-SCRIPT_NAME=dev_load_frs_state_facility.sql    #<-- change this to load_frs_national_facility.sql for Production -- dev_load_frs_national_facility.sql
 ZIP_NAME=state_combined_$SUB_TYPE_LOWER.zip                                      #national_combined.zip
 CSV_NAME_END=_FACILITY_FILE   													#NATIONAL_FACILITY_FILE
 CSV_NAME=$SUB_TYPE$CSV_NAME_END
@@ -61,7 +59,7 @@ if [ ! -f $ZIP_NAME ];             #$SOURCE_DATA_HOME/
  	echo "FRS .zip file not found in the $SOURCE_DATA_HOME, Can not start FRS File Process." >> $LOG_FILE
 	echo "\nFile Process for $ZIP_NAME data file completed at $DONE" >> $LOG_FILE
 	mailx -s "FRS File Process Failed !!" $EMAIL < $LOG_FILE
- 	#email_log
+ 	email_log
  	exit 0
 fi
 

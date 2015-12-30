@@ -4,7 +4,7 @@ class DbService {
     protected $dbConnection;
     protected $sessionId;
 
-    // MySQL Connection constants
+    // MySQL Connection constants 
     const DB_HOST = "127.0.0.1";
     const DB_NAME = "4840w";
     const DB_USERNAME = "4840w";
