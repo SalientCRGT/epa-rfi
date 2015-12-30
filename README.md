@@ -1,4 +1,4 @@
-##[HapiGenie] (http://52.3.5.215/#/)
+##[HapiGenie] (https://epa-rfi-selectshake.c9users.io/#/)
 
 HapiGenie is an application built with the consumers of the EPA’s data in mind. Much of the publicly-available EPA data is consumed by academic, public interest and research organizations. These organizations pull the data to create tools, apps and new combined datasets. The EPA’s fundamental mission of promoting sustainability, influencing consumer behavior and developing effective regulatory programs is enabled when these data consumers can easily produce a diverse, accurate and flexible set of applications.
 
