@@ -17,8 +17,6 @@
 # set up variables
 #***********************************************************************
 
-SUB_TYPE=$1
-
 LOG_HOME=../server/sql/data        #/logs
 LOG_FILE="epa_frs_load.log"     #$LOG_HOME/
 EMAIL=jshake@crgt.com
@@ -30,7 +28,7 @@ APP_DATA_HOME=../server/sql/data
 ARCH_DATA_HOME=../server/sql/data      #/archive
 SCRIPT_HOME=../server/sql
 SCRIPT_NAME=dev_load_frs_state_facility.sql    #<-- change this to load_frs_national_facility.sql for Production -- dev_load_frs_national_facility.sql
-ZIP_NAME=state_combined_$SUB_TYPE.zip                                      #national_combined.zip
+ZIP_NAME=state_combined_$SUB_TYPE_LOWER.zip                                      #national_combined.zip
 CSV_NAME_END=_FACILITY_FILE   													#NATIONAL_FACILITY_FILE
 CSV_NAME=$SUB_TYPE$CSV_NAME_END
 
@@ -52,9 +50,7 @@ EMAIL_LOG()
 
 DONE=`date "+DATE: %m/%d/%Y% TIME: %r"`
 echo "EPA File Process Started at: $DONE" > $LOG_FILE
-echo "\nsubtype: $SUB_TYPE" >> $LOG_FILE
-echo "\ZIP_NAME: $ZIP_NAME" >> $LOG_FILE
-echo "\CSV_NAME: $CSV_NAME" >> $LOG_FILE
+
 # Check if the zip file exists
 vError="N"
 

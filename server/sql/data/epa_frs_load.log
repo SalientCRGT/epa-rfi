@@ -1,6 +1,18 @@
-EPA File Process Started at: DATE: 12/29/2015% TIME: 09:15:13 PM
-\nsubtype: MD
-\ZIP_NAME: state_combined_MD.zip
-\CSV_NAME: MD_FACILITY_FILE
-FRS .zip file not found in the ../server/sql/data, Can not start FRS File Process.
-\nFile Process for state_combined_MD.zip data file completed at DATE: 12/29/2015% TIME: 09:15:13 PM
+EPA File Process Started at: DATE: 12/30/2015% TIME: 01:42:16 AM
+
+FRS .zip file found in the ../server/sql/data
+
+Latest FRS File is state_combined_tx.zip
+
+TX_FACILITY_FILE.CSV found in the ../server/sql/data
+
+TX_FACILITY_FILE.CSV moved to TX_FACILITY_FILE.csv
+
+Start of ARCHIVE and CLEAN UP Process
+
+NUM : 0
+
+
+End of ARCHIVE and CLEAN UP Process
+
+Process for FSR COMPLETED AT DATE: 12/30/2015% TIME: 01:42:17 AM

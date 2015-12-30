@@ -1,88 +1,108 @@
 <div class="container">
     <h1 class="text-primary">
-        Facilities Registry System
-        <hr class="animated slideInLeft">
+        HapiGenie
     </h1>
-    <form ng-submit="update(state)" class="navbar-form">
-        <select class="form-control" ng-model="state">
-            <option value="VA">Virginia</option>
-            <option value="MD">Maryland</option>
-            <option value="NC">North Carolina</option>
-        </select>
-        <button class="btn navbar-btn navbar-right" type="submit">
-            Update
-        </button>    
-     </form>
-
-    <form ng-submit="search()" class="collapse in">
-        <p class="text-right">
-            <a href ng-click="toggleForm()">Advanced Search <i class="fa fa-caret-right"></i></a>
-        </p>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" ng-model="searchParameters.q" class="form-control" placeholder="search the repository" autofocus />
-                <span class="input-group-btn">
+    <div class="container">
+        <p>An application that takes the Facilities Registry System’s dataset and wraps it in a generated JSON API. Simply search, get results, and apply them to your own application! 
+            HapiGen-erating!</p>
+    </div>
+    <hr class="animated slideInLeft">
+    <div class="row">
+        <div class="col-md-4">
+            <div id="update" class="alert alert-success" ng-click="toggleForm('#update','#toggleUpdate')" style="cursor:pointer">
+                <strong>Rub the Lamp</strong>
+                <br>
+                <p style="margin:5px;"><em>Click Update button to pull in latest results</em></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="search" class="alert alert-warning" ng-click="toggleForm('#search','#toggleSearch')" style="cursor:pointer">
+                <strong>Make a Wish</strong>
+                <br>
+                <p style="margin:5px;"><em>You provide search criteria we provide a URL</em></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="results" class="alert alert-warning" ng-click="toggleForm('#results','#toggleResults')" style="cursor:pointer">
+                <strong>Wish Granted</strong>
+                <br>
+               <p style="margin:5px;"><em>JSON formatted data to your application</em></p>
+            </div>
+        </div>
+    </div>
+    <div id="toggler" class="container">
+        <form id="toggleUpdate" ng-submit="update(state)" class="form-inline collapse in">
+            <div class="form-group">
+                <label for="stateAbbr">Choose State</label>
+                <select id="stateAbbr" class="form-control" ng-model="state">
+                    <option ng-selected="{{s.abbr == state}}"
+                            ng-repeat="s in states"
+                            value="{{s.abbr}}">
+                      {{s.name}}
+                    </option>
+                </select>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-refresh" ng-class="{'fa-spin': updated.$resolved == false}"></i>
+                    Update
+                </button>    
+            </div>
+            
+         </form>
+        <form id="toggleSearch" ng-submit="search()" class="collapse form-horizontal">
+            <h3 class="center-block" style="width: 165px;">Search Criteria</h3>
+            <div class="form-group">
+                <label for="primaryName" class="col-md-2 control-label">Name</label>
+                <div class="col-md-4">
+                    <input id="primaryName" type="text" ng-model="searchParameters.primaryName" class="form-control">
+                </div>
+                <label for="locationAddress" class="col-md-2 control-label">Address</label>
+                <div class="col-md-4">
+                    <input id="locationAddress" type="text" ng-model="searchParameters.locationAddress" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cityName" class="col-md-2 control-label">City</label>
+                <div class="col-md-4">
+                    <input id="cityName" type="text" ng-model="searchParameters.cityName" class="form-control">
+                </div>
+                <label for="stateName" class="col-md-2 control-label">State</label>
+                <div class="col-md-4">
+                    <input id="stateName" type="text" ng-model="searchParameters.stateName" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="postalCode" class="col-md-2 control-label">Zip</label>
+                <div class="col-md-4">
+                    <input id="postalCode" type="text" ng-model="searchParameters.postalCode" class="form-control">
+                </div>
+                <div class="col-md-offset-2 col-md-4 hidden-xs hidden-sm">
                     <button class="btn btn-primary" type="submit">
                         <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
                     </button>
-                </span>
+                </div>
             </div>
-        </div>
-    </form>
-
-    <form ng-submit="search()" class="form-horizontal collapse">
-        <p>
-            <a href ng-click="toggleForm()"><i class="fa fa-caret-left"></i> Basic Search</a>
-        </p>
-        <div class="form-group">
-            <label for="primaryName" class="col-md-2 control-label">Name</label>
-            <div class="col-md-4">
-                <input id="primaryName" type="text" ng-model="searchParameters.primaryName" class="form-control">
+            <div class="hidden-md hidden-lg form-group">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
+                    </button>
+                </div>
             </div>
-            <label for="locationAddress" class="col-md-2 control-label">Address</label>
-            <div class="col-md-4">
-                <input id="locationAddress" type="text" ng-model="searchParameters.locationAddress" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="cityName" class="col-md-2 control-label">City</label>
-            <div class="col-md-4">
-                <input id="cityName" type="text" ng-model="searchParameters.cityName" class="form-control">
-            </div>
-            <label for="stateName" class="col-md-2 control-label">State</label>
-            <div class="col-md-4">
-                <input id="stateName" type="text" ng-model="searchParameters.stateName" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="postalCode" class="col-md-2 control-label">Zip</label>
-            <div class="col-md-4">
-                <input id="postalCode" type="text" ng-model="searchParameters.postalCode" class="form-control">
-            </div>
-            <div class="col-md-offset-2 col-md-4 hidden-xs hidden-sm">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
-                </button>
-            </div>
-        </div>
-        <div class="hidden-md hidden-lg form-group">
-            <div class="col-xs-12">
-                <button class="btn btn-primary btn-block" type="submit">
-                    <i class="fa fa-search" ng-class="{'fa-spin': facilities.$resolved == false}"></i> Search
-                </button>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="postalCode" class="col-md-2 control-label">
-                JSON API URL
-            </label>
-            <div class="col-md-10">
-                <div class="well well-sm">
-                    <a ng-href="{{requestUrl()}}" target="_blank">{{requestUrl()}}</a>
+        </form>
+        <div id="toggleResults" class="collapse">
+            <div class="form-group">
+                <label for="postalCode" class="col-md-2 control-label">
+                    JSON API URL
+                </label>
+                <div class="col-md-10">
+                    <div class="well well-sm">
+                        <a ng-href="{{requestUrl()}}" target="_blank">{{requestUrl()}}</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+    <hr class="animated slideInLeft">
     <table class="table table-hover">
         <caption class="text-right">Row Count: {{facilities.$rowCount}}</caption>
         <thead>

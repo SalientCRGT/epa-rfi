@@ -4,11 +4,11 @@ var ngapp = angular.module('ngapp', ['ngRoute','ngResource','ngAnimate']);
 ngapp.config(function($routeProvider, $resourceProvider){
 
 	$routeProvider
-		.when('/search', {
+		.when('/', {
 			templateUrl: 'ngapp/search/search.html',
 			controller: 'SearchCtrl'
 		})
-		.when('/', {
+		.when('/developer', {
 			templateUrl: 'ngapp/developer/developer.html'
 		})
 		.otherwise({
@@ -45,12 +45,6 @@ ngapp.config(function($routeProvider, $resourceProvider){
 		});
 		return response.resource;
 	}
-	
-	function responseErrorInterceptor(response){
-		console.log("error interceptor status: " + response.status);
-		
-		return response.resource;
-	}
 
 	$resourceProvider.defaults.actions = {
 		get: {
@@ -63,8 +57,7 @@ ngapp.config(function($routeProvider, $resourceProvider){
 			isArray: true,
 			transformResponse: transformAll,
 			interceptor: {
-				response: responseInterceptor,
-				responseError: responseErrorInterceptor
+				response: responseInterceptor
 			}
 		}
 	};
@@ -73,4 +66,8 @@ ngapp.config(function($routeProvider, $resourceProvider){
 
 ngapp.factory('FacilityResource',function($resource){
 	return $resource('/api/facilities/:id',{page: 1, pageSize: 50});
+});
+
+ngapp.factory('UpdateResource',function($resource){
+	return $resource('/api/files');
 });

@@ -2,8 +2,10 @@
 
 class GetEPAData extends RestService { 
     
-     protected  $fileSaveDir = "../server/sql/data/";
-     protected  $csvName = "VA_FACILITY_FILE.csv";
+    protected  $fileSaveDir = "../server/sql/data/";
+    protected  $csvName = "VA_FACILITY_FILE.csv";
+    protected $type  = "";
+    protected  $subType = "";
 
     /**
      * getEPAFile($type, $subType)
@@ -30,9 +32,7 @@ class GetEPAData extends RestService {
             
         } catch(Exception $e) {
             $results = "FAILED DOWNLOAD";
-            echo $e;
         } finally {
-            echo $results;
             return $results;
         }
 
@@ -67,22 +67,18 @@ class GetEPAData extends RestService {
 
     function execCommand($cmd) { 
         $filePath = $this->fileSaveDir . $this->csvName;
-        //echo $filePath;
-        
+        $subType = $this->subType;
         try {
-            $results = shell_exec($cmd); //exec($cmd); // . " > /dev/null &");   
-            //echo $cmd . " completed.";
+            
+            putenv("SUB_TYPE=$subType");
+            putenv("SUB_TYPE_LOWER=".strtolower($subType));
+            $results = exec($cmd); //exec($cmd); // . " > /dev/null &");   
             if (file_exists($filePath)) {
-                echo "\nThe file $filePath exists";
                 $results = "SUCCESSFUL EXTRACT";
-            } else {
-                echo "\nThe file $filePath does not exist";
-            }
+            } 
         } catch (Exception $e) {
             $results = "FAILED PROCESS";
-            echo $e;
         } finally {
-            echo "\n".$results;
             return $results;
         }
     } 
@@ -99,45 +95,50 @@ class GetEPAData extends RestService {
 
     public function processEPAFile() { //$type, $subType
         $params = $this->app->request->get();
-        $type = $params["type"];
-        $subType = $params["subtype"];
+        $this->type = $params["type"];
+        $this->subType = $params["subtype"];
         
-        $this->csvName = $subType."_FACILITY_FILE.csv";
+        $this->csvName = $this->subType."_FACILITY_FILE.csv";
         
-        if ($type == "FRS") {
-            $cmd = ". ../server/scripts/frs_file_process.sh '$subType'";
+        if ($this->type == "FRS") {
+            $cmd = ". ../server/scripts/frs_file_process.sh";
         } else {
             $cmd = "";
         }
         
         try {
-            $results = $this->getEPAFile($type, $subType);
+            $results = $this->getEPAFile($this->type, $this->subType);
             if ($results == "SUCCESSFUL DOWNLOAD") {
-                //echo $results;
                  $results = $this->execCommand($cmd);
-                //echo $results;
                if ($results == "SUCCESSFUL EXTRACT") {
-                  // echo $results;
-                   $results = $this->dbService->loadData($type, $subType);
-                  // echo $results;
+                   $results = $this->dbService->loadData($this->type, $this->subType);
                   if ($results == "SUCCESSFUL LOAD") {
-                      $result = $this->dbService->checkData($type, $subType);
+                      $result = $this->dbService->checkData($this->type, $this->subType);
                         if ($result > 0) {
-                            echo "\n". $result . " records loaded";
                             $results = "SUCCESSFUL LOAD";
                         } else {
-                            echo "\nNo records loaded.";
                             $results = "FAILED LOAD PROCESS";
                         }
                   }
                }
+               
             }
+            
+            $dir =  $this->fileSaveDir.$this->csvName;
+            $cmd = "rm $dir";
+            $results =  $this->execCommand($cmd);
+            
+            $dir =  $this->fileSaveDir."state_combined_".strtolower($this->subType).".zip";
+            $cmd = "rm $dir";
+            $results =  $this->execCommand($cmd);
+            
             
         } catch(Exception $e) {
             $results = "FAILED TO LOAD DATA!";
-            echo $e;
         } finally {
-            echo "\n".$results;
+            
+            $this->setResponse($results, $results, 0, 0, array());
+            $this->outputResponse();
             return $results;
         }
             

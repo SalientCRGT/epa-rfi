@@ -38,7 +38,6 @@ class DbService {
             $results = $stmt->fetchObject();
         } catch(Exception $e) {
             $results = $e;
-            echo $e;
         } finally {
             return $results->epa_file_name;
         }
@@ -53,7 +52,6 @@ class DbService {
             $results = $stmt->fetchObject();
         } catch(Exception $e) {
             $results = $e;
-            echo $e;
         } finally {
             return $results->url;
         }
@@ -90,14 +88,11 @@ class DbService {
             try {
                 $stmt = $this->dbConnection->prepare($sql);
                 $stmt->execute();
-                echo "\nTable truncated\n";
 
                 $results = "SUCCESSFUL LOAD";
             } catch (Exception $e) {
                 $results = "FAILED LOAD";
-                echo $e;
             } finally {
-                echo $results;
                 return $results;
             }
         } else {
@@ -122,10 +117,8 @@ class DbService {
                 $stmt = $this->dbConnection->prepare($query);
                 $stmt->execute();
                 $result = $stmt->fetchObject();                
-                echo "\n".$result->recs;
             } catch(Exception $e) {
                // $result = 0;
-                echo $e;
             } finally {
                 return $result->recs;
             }
