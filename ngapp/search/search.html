@@ -33,7 +33,6 @@
     <div id="toggler" class="container">
         <form id="toggleUpdate" ng-submit="update(state)" class="form-inline collapse in">
             <div class="form-group">
-                <label for="stateAbbr">Choose State</label>
                 <select id="stateAbbr" class="form-control" ng-model="state">
                     <option ng-selected="{{s.abbr == state}}"
                             ng-repeat="s in states"
