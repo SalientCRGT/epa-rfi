@@ -1,18 +1,11 @@
-EPA File Process Started at: DATE: 12/30/2015% TIME: 03:22:01 PM
+EPA File Process Started at: DATE: 12/30/2015% TIME: 08:28:10 PM
 
 FRS .zip file found in the ../server/sql/data
 
-Latest FRS File is state_combined_ak.zip
+Latest FRS File is state_combined_wv.zip
 
-AK_FACILITY_FILE.CSV found in the ../server/sql/data
+WV_FACILITY_FILE.CSV found in the ../server/sql/data
 
-AK_FACILITY_FILE.CSV moved to AK_FACILITY_FILE.csv
+WV_FACILITY_FILE.CSV moved to WV_FACILITY_FILE.csv
 
-Start of ARCHIVE and CLEAN UP Process
-
-NUM : 0
-
-
-End of ARCHIVE and CLEAN UP Process
-
-Process for FSR COMPLETED AT DATE: 12/30/2015% TIME: 03:22:01 PM
+Process for FSR COMPLETED AT DATE: 12/30/2015% TIME: 08:28:10 PM

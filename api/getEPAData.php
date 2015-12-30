@@ -124,13 +124,13 @@ class GetEPAData extends RestService {
                
             }
             
-            $dir =  $this->fileSaveDir.$this->csvName;
+            /*$dir =  $this->fileSaveDir.$this->csvName;
             $cmd = "rm $dir";
             $results =  $this->execCommand($cmd);
             
             $dir =  $this->fileSaveDir."state_combined_".strtolower($this->subType).".zip";
             $cmd = "rm $dir";
-            $results =  $this->execCommand($cmd);
+            $results =  $this->execCommand($cmd);*/
             
             
         } catch(Exception $e) {

@@ -1,32 +1,30 @@
 <div class="container">
     <h1 class="text-primary">
-        HapiGenie
+        HapiGenie for the Facility Registry System
+        <br>
+        <small>Making your wish for lighter, more adaptable data come true</small>
     </h1>
-    <div class="container">
-        <p>An application that takes the Facilities Registry System’s dataset and wraps it in a generated JSON API. Simply search, get results, and apply them to your own application! 
-            HapiGen-erating!</p>
-    </div>
     <hr class="animated slideInLeft">
     <div class="row">
         <div class="col-md-4">
-            <div id="update" class="alert-instruct alert alert-success" ng-click="toggleForm('#update','#toggleUpdate')" style="cursor:pointer">
-                <strong>Rub the Lamp</strong>
+            <div id="update" class="alert-instruct alert alert-success" ng-click="toggleForm('#update','#toggleUpdate')">
+                <strong>1. Rub the Lamp</strong>
                 <br>
-                <p style="margin:5px;"><em>Ask the HapiGenie which state's data you would like to load and click update</em></p>
+                <p style="margin:5px;"><em>Confirm that the dataset meets your needs, update states if you wish</em></p>
             </div>
         </div>
         <div class="col-md-4">
-            <div id="search" class="alert-instruct alert alert-warning" ng-click="toggleForm('#search','#toggleSearch')" style="cursor:pointer">
-                <strong>Make a Wish</strong>
+            <div id="search" class="alert-instruct alert alert-warning" ng-click="toggleForm('#search','#toggleSearch')">
+                <strong>2. Make a Wish</strong>
                 <br>
-                <p style="margin:5px;"><em>Craft a wish that fufils your heart's desire and click search</em></p>
+                <p style="margin:5px;"><em>Refine thedata with filters to narrow your query to just what you desire</em></p>
             </div>
         </div>
         <div class="col-md-4">
-            <div id="results" class="alert-instruct alert alert-warning" ng-click="toggleForm('#results','#toggleResults')" style="cursor:pointer">
-                <strong>Wish Granted</strong>
+            <div id="results" class="alert-instruct alert alert-warning" ng-click="toggleForm('#results','#toggleResults')">
+                <strong>3. Wish Granted</strong>
                 <br>
-               <p style="margin:5px;"><em>Embed the given URL or JSON dataset into your very own application</em></p>
+               <p style="margin:5px;"><em>Embed the given URL or JSON dataset into your application</em></p>
             </div>
         </div>
     </div>
@@ -40,7 +38,7 @@
                       {{s.name}}
                     </option>
                 </select>
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" ng-disabled="updated.$resolved == false">
                     <i class="fa fa-refresh" ng-class="{'fa-spin': updated.$resolved == false}"></i>
                     Update
                 </button>    
@@ -102,61 +100,71 @@
         </div>
     </div>
     <hr class="animated slideInLeft">
-    <table class="table table-hover">
-        <caption class="text-right">Row Count: {{facilities.$rowCount}}</caption>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Federal Agency</th>
-                <th>Site Type</th>
-                <th>Address</th>
-                <th>Map</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="f in facilities">
-                <td ng-if="!f.frsFacilityDetailReportUrl">{{f.primaryName}}</td>
-                <td>
-                    <a href="{{f.frsFacilityDetailReportUrl}}" target="_blank" title="Detail Report Available">{{f.primaryName}}</a>
-                </td>
-                <td>{{f.federalAgencyName != '' ? f.federalAgencyName : 'N/A' }}</td>
-                <td>{{f.siteTypeName}}</td>
-                <td>
-                    <address>
-                         {{f.locationAddress}}<br>
-                         {{f.cityName}}, {{f.stateCode}} {{f.postalCode}}
-                    </address>
-                </td>
-                <td style="white-space: nowrap">
-                    <a title="Map by Address" href="http://maps.google.com/?q={{f.locationAddress}} {{f.cityName}} {{f.stateName}} {{f.postalCode}}" target="_blank">
-                        <i class="fa fa-globe fa-lg fa-fw"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div ng-if="facilities.$code!='success' && !facilities.length && facilities.$resolved===true" class="text-muted">
-        <em>No results found</em>
-    </div>
-    <div ng-if="facilities.$code=='error'" class="text-danger">
-        <strong>Error: </strong>{{facilities.$msg}}
-    </div>
-    <nav ng-if="pages.length" class="text-center" >
-        <ul class="pagination">
-            <li ng-class="{'disabled': pager.page == 1}">
-                <a href aria-label="Previous" ng-click="search(pager.page - 1)">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li ng-repeat="page in pages" ng-class="{'active': page == pager.page}">
-                <a href ng-click="search(page)">{{page}}</a>
-            </li>
-            <li>
-                <a href aria-label="Previous" ng-click="search(pager.page + 1)">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div id="data-info" class="container">
+        <h3>Dataset Metadata</h3>
+        <div class="well">
+            <ul>
+                <li>Total Number of rows: {{facilities.$rowCount}}</li>
+            </ul>
 
+        </div>
+    </div>
+    <div id="data-table" class="table-responsive">
+        <table class="table table-hover">
+            <caption class="text-right">Row Count: {{facilities.$rowCount}}</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Federal Agency</th>
+                    <th>Site Type</th>
+                    <th>Address</th>
+                    <th>Map</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="f in facilities">
+                    <td ng-if="!f.frsFacilityDetailReportUrl">{{f.primaryName}}</td>
+                    <td>
+                        <a href="{{f.frsFacilityDetailReportUrl}}" target="_blank" title="Detail Report Available">{{f.primaryName}}</a>
+                    </td>
+                    <td>{{f.federalAgencyName != '' ? f.federalAgencyName : 'N/A' }}</td>
+                    <td>{{f.siteTypeName}}</td>
+                    <td>
+                        <address>
+                             {{f.locationAddress}}<br>
+                             {{f.cityName}}, {{f.stateCode}} {{f.postalCode}}
+                        </address>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <a title="Map by Address" href="http://maps.google.com/?q={{f.locationAddress}} {{f.cityName}} {{f.stateName}} {{f.postalCode}}" target="_blank">
+                            <i class="fa fa-globe fa-lg fa-fw"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="facilities.$code!='success' && !facilities.length && facilities.$resolved===true" class="text-muted">
+            <em>No results found</em>
+        </div>
+        <div ng-if="facilities.$code=='error'" class="text-danger">
+            <strong>Error: </strong>{{facilities.$msg}}
+        </div>
+        <nav ng-if="pages.length" class="text-center" >
+            <ul class="pagination">
+                <li ng-class="{'disabled': pager.page == 1}">
+                    <a href aria-label="Previous" ng-click="search(pager.page - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li ng-repeat="page in pages" ng-class="{'active': page == pager.page}">
+                    <a href ng-click="search(page)">{{page}}</a>
+                </li>
+                <li>
+                    <a href aria-label="Previous" ng-click="search(pager.page + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>

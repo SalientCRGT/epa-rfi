@@ -85,10 +85,22 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
         $(clicked).removeClass('alert-warning').addClass('alert-success');
         $('#toggler .collapse').collapse('hide');
         $(toggleTo).collapse('show');
+        
+        if(toggleTo == "#toggleUpdate"){
+            $('#data-table').hide();
+            $('#data-info').show();
+        }else{
+            $('#data-table').show();
+            $('#data-info').hide();
+        }
 	};
 	
 	$scope.requestUrl = function(){
 	    return $location.protocol() + '://' + $location.host() + '/api/facilities?' + $httpParamSerializerJQLike(searchParams(false));
+	};
+	
+	$scope.statesLoaded = function(){
+	    
 	};
 	
 	$('.alert-instruct').hover(function(){
@@ -96,6 +108,8 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
 	},function(){
 	    $(this).removeClass('highlight');
 	});
+	
+	$('#data-table').hide();
 	
 	$scope.states = [
 	    {
