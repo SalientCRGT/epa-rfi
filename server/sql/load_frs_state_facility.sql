@@ -1,5 +1,5 @@
 DELETE FROM frs_state_facility WHERE state_code = '{SUB_TYPE}';
---COMMIT;
+
 LOAD DATA LOCAL INFILE '../server/sql/data/{SUB_TYPE}_FACILITY_FILE.csv' INTO TABLE frs_state_facility
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n' STARTING BY ''
@@ -40,7 +40,5 @@ IGNORE 1 LINES
                 accuracy_value = nullif(@accuracy_value,''),
                 ref_point_desc = nullif(@ref_point_desc,''),
                 hdatum_desc = nullif(@hdatum_desc,''),
-                source_desc = nullif(@source_desc,''); --refresh_date = now();
+                source_desc = nullif(@source_desc,''); 
                 
---COMMIT;                
-
