@@ -10,7 +10,7 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
     
     // build a new json object as the request parameters from the search and pager
     // the resource has defaults {page: 1, pageSize: 50}
-    function searchParams(){
+    function searchParams(isPaged){
 
         var formattedParams = {};
         // trim unused attributes for cleaner request urls
@@ -24,14 +24,18 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
                 break;
             }
             formattedParams[i] = $scope.searchParameters[i];
+            console.log("param " + i + formattedParams[i]);
         }
         
         // todo : alter q to pass in regexp syntax similar to google-style searching
         // https://support.google.com/websearch/answer/2466433?hl=en
         // e.g. quotes, asterisk, minus, number range
 
-        var params = angular.extend({}, formattedParams, $scope.pager);
-        return params;
+        if(isPaged){
+            return angular.extend({}, formattedParams, $scope.pager);
+        }else{
+            return formattedParams;
+        }
     }
     
     $scope.search = function(page){
@@ -43,7 +47,7 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
         $scope.pager.page = page || 1;
         $scope.pages = [];
         
-        $scope.facilities = FacilityResource.query(searchParams());
+        $scope.facilities = FacilityResource.query(searchParams(true));
 
         // manage the array of pages
         // we'll limit it to 5 with the current page in the center
@@ -86,7 +90,7 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
 	};
 	
 	$scope.requestUrl = function(){
-	    return $location.protocol() + '://' + $location.host() + '/api/facilities?' + $httpParamSerializerJQLike(searchParams());
+	    return $location.protocol() + '://' + $location.host() + '/api/facilities?' + $httpParamSerializerJQLike(searchParams(false));
 	};
 	
 	$scope.states = [
