@@ -24,7 +24,6 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
                 break;
             }
             formattedParams[i] = $scope.searchParameters[i];
-            console.log("param " + i + formattedParams[i]);
         }
         
         // todo : alter q to pass in regexp syntax similar to google-style searching
@@ -73,7 +72,6 @@ ngapp.controller('SearchCtrl', function($scope, $http, FacilityResource, UpdateR
         params["subtype"] = state;
         $scope.updated = UpdateResource.query(params);
         $scope.updated.$promise.then(function(){
-            console.log("in callback...");
             $scope.search(1);
         });
     };
