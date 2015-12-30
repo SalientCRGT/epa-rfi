@@ -1,8 +1,7 @@
 DELETE FROM frs_state_facility WHERE state_code = '{SUB_TYPE}';
-select concat ("Deleted ", row_count(), " rows") as ''; 
 COMMIT;
 LOAD DATA LOCAL INFILE '../server/sql/data/{SUB_TYPE}_FACILITY_FILE.csv' INTO TABLE frs_state_facility
-FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"'
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n' STARTING BY ''
 IGNORE 1 LINES
                 (frs_facility_detail_report_url, registry_id, @primary_name, @location_address, @supplemental_location, @city_name,
@@ -43,5 +42,5 @@ IGNORE 1 LINES
                 hdatum_desc = nullif(@hdatum_desc,''),
                 source_desc = nullif(@source_desc,''); --refresh_date = now();
                 
-select concat ("Updated ", row_count(), " rows") as ''; 
 COMMIT;                
+
